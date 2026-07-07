@@ -1,0 +1,37 @@
+{
+  "name": "@openstyle/schema",
+  "version": "0.0.0",
+  "description": "StyleModel zod schema + TypeScript types for openstyle. The canonical shape LLMs fill in.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaopengbin/openstyle.git",
+    "directory": "packages/schema"
+  },
+  "keywords": ["sld", "geoserver", "gis", "cartography", "zod", "schema", "openstyle"]
+}

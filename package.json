@@ -1,0 +1,29 @@
+{
+  "name": "openstyle",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Open, AI-friendly toolkit for map styling — schema, compiler, and prompt manual for SLD (and beyond).",
+  "license": "MIT",
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter=./packages/* run build",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "docs:dev": "pnpm --filter @openstyle/docs run dev",
+    "docs:build": "pnpm --filter @openstyle/docs run build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

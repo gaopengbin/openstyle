@@ -1,0 +1,204 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`compileToSld > snapshot: choropleth polygon 1`] = `
+"<?xml version="1.0" encoding="UTF-8"?>
+<StyledLayerDescriptor version="1.0.0"    xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd"    xmlns="http://www.opengis.net/sld"    xmlns:ogc="http://www.opengis.net/ogc"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NamedLayer>
+    <Name>population_choropleth
+    </Name>
+    <UserStyle>
+      <Name>population_choropleth
+      </Name>
+      <Title>Population choropleth
+      </Title>
+      <FeatureTypeStyle>
+        <Rule>
+          <Name>rule-0
+          </Name>
+          <Title>Low
+          </Title>
+          <ogc:Filter>
+            <ogc:PropertyIsLessThan>
+              <ogc:PropertyName>POP_DENS
+              </ogc:PropertyName>
+              <ogc:Literal>100
+              </ogc:Literal>
+            </ogc:PropertyIsLessThan>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">#f7fbff
+              </CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#c6dbef
+              </CssParameter>
+              <CssParameter name="stroke-width">0.5
+              </CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+          <TextSymbolizer>
+            <Label>
+              <ogc:PropertyName>NAME
+              </ogc:PropertyName>
+            </Label>
+            <Font>
+              <CssParameter name="font-size">11
+              </CssParameter>
+            </Font>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
+            <Halo>
+              <Radius>1
+              </Radius>
+              <Fill>
+                <CssParameter name="fill">#ffffff
+                </CssParameter>
+              </Fill>
+            </Halo>
+          </TextSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>rule-1
+          </Name>
+          <Title>Mid
+          </Title>
+          <ogc:Filter>
+            <ogc:PropertyIsBetween>
+              <ogc:PropertyName>POP_DENS
+              </ogc:PropertyName>
+              <ogc:LowerBoundary>
+                <ogc:Literal>100
+                </ogc:Literal>
+              </ogc:LowerBoundary>
+              <ogc:UpperBoundary>
+                <ogc:Literal>1000
+                </ogc:Literal>
+              </ogc:UpperBoundary>
+            </ogc:PropertyIsBetween>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">#6baed6
+              </CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#3182bd
+              </CssParameter>
+              <CssParameter name="stroke-width">0.5
+              </CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+          <TextSymbolizer>
+            <Label>
+              <ogc:PropertyName>NAME
+              </ogc:PropertyName>
+            </Label>
+            <Font>
+              <CssParameter name="font-size">11
+              </CssParameter>
+            </Font>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
+            <Halo>
+              <Radius>1
+              </Radius>
+              <Fill>
+                <CssParameter name="fill">#ffffff
+                </CssParameter>
+              </Fill>
+            </Halo>
+          </TextSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>rule-2
+          </Name>
+          <Title>High
+          </Title>
+          <ogc:Filter>
+            <ogc:PropertyIsGreaterThanOrEqualTo>
+              <ogc:PropertyName>POP_DENS
+              </ogc:PropertyName>
+              <ogc:Literal>1000
+              </ogc:Literal>
+            </ogc:PropertyIsGreaterThanOrEqualTo>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">#08306b
+              </CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#08306b
+              </CssParameter>
+              <CssParameter name="stroke-width">0.5
+              </CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+          <TextSymbolizer>
+            <Label>
+              <ogc:PropertyName>NAME
+              </ogc:PropertyName>
+            </Label>
+            <Font>
+              <CssParameter name="font-size">11
+              </CssParameter>
+            </Font>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
+            <Halo>
+              <Radius>1
+              </Radius>
+              <Fill>
+                <CssParameter name="fill">#ffffff
+                </CssParameter>
+              </Fill>
+            </Halo>
+          </TextSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>rule-else
+          </Name>
+          <Title>other
+          </Title>
+          <ElseFilter/>
+          <PolygonSymbolizer>
+            <Fill>
+              <CssParameter name="fill">#9CA3AF
+              </CssParameter>
+            </Fill>
+          </PolygonSymbolizer>
+          <TextSymbolizer>
+            <Label>
+              <ogc:PropertyName>NAME
+              </ogc:PropertyName>
+            </Label>
+            <Font>
+              <CssParameter name="font-size">11
+              </CssParameter>
+            </Font>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
+            <Halo>
+              <Radius>1
+              </Radius>
+              <Fill>
+                <CssParameter name="fill">#ffffff
+                </CssParameter>
+              </Fill>
+            </Halo>
+          </TextSymbolizer>
+        </Rule>
+      </FeatureTypeStyle>
+    </UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>"
+`;
