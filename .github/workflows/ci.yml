@@ -25,11 +25,13 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck
-        run: pnpm typecheck
-
+      # Build first — downstream packages consume `@openstyle/schema` via its
+      # published `dist/index.d.ts`, so typecheck can only run after build.
       - name: Build
         run: pnpm build
+
+      - name: Typecheck
+        run: pnpm typecheck
 
       - name: Test
         run: pnpm test
