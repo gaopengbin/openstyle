@@ -46,10 +46,6 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
               <CssParameter name="font-size">11
               </CssParameter>
             </Font>
-            <Fill>
-              <CssParameter name="fill">#111827
-              </CssParameter>
-            </Fill>
             <Halo>
               <Radius>1
               </Radius>
@@ -58,6 +54,10 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
                 </CssParameter>
               </Fill>
             </Halo>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
           </TextSymbolizer>
         </Rule>
         <Rule>
@@ -100,10 +100,6 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
               <CssParameter name="font-size">11
               </CssParameter>
             </Font>
-            <Fill>
-              <CssParameter name="fill">#111827
-              </CssParameter>
-            </Fill>
             <Halo>
               <Radius>1
               </Radius>
@@ -112,6 +108,10 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
                 </CssParameter>
               </Fill>
             </Halo>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
           </TextSymbolizer>
         </Rule>
         <Rule>
@@ -148,10 +148,6 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
               <CssParameter name="font-size">11
               </CssParameter>
             </Font>
-            <Fill>
-              <CssParameter name="fill">#111827
-              </CssParameter>
-            </Fill>
             <Halo>
               <Radius>1
               </Radius>
@@ -160,6 +156,10 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
                 </CssParameter>
               </Fill>
             </Halo>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
           </TextSymbolizer>
         </Rule>
         <Rule>
@@ -183,10 +183,6 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
               <CssParameter name="font-size">11
               </CssParameter>
             </Font>
-            <Fill>
-              <CssParameter name="fill">#111827
-              </CssParameter>
-            </Fill>
             <Halo>
               <Radius>1
               </Radius>
@@ -195,6 +191,10 @@ exports[`compileToSld > snapshot: choropleth polygon 1`] = `
                 </CssParameter>
               </Fill>
             </Halo>
+            <Fill>
+              <CssParameter name="fill">#111827
+              </CssParameter>
+            </Fill>
           </TextSymbolizer>
         </Rule>
       </FeatureTypeStyle>

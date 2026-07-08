@@ -1,6 +1,6 @@
 {
   "name": "@openstyle/schema",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "description": "StyleModel zod schema + TypeScript types for openstyle. The canonical shape LLMs fill in.",
   "license": "MIT",
   "type": "module",

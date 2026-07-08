@@ -1,6 +1,6 @@
 {
   "name": "@openstyle/compiler",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "description": "Deterministic OGC SLD 1.0 emitter for openstyle StyleModel.",
   "license": "MIT",
   "type": "module",

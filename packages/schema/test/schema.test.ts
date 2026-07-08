@@ -43,6 +43,91 @@ describe("StyleModelSchema", () => {
     };
     expect(StyleModelSchema.safeParse(bad).success).toBe(false);
   });
+
+  it("accepts class-level and fallback scale ranges", () => {
+    const model: StyleModel = {
+      name: "roads",
+      geom: "line",
+      classification: {
+        field: "type",
+        classes: [
+          {
+            label: "highway",
+            filter: { op: "eq", value: "hwy" },
+            symbolizer: { kind: "line", stroke: "#000", strokeWidth: 2 },
+            scale: { maxScaleDenominator: 5_000_000 },
+          },
+        ],
+        fallback: { kind: "line", stroke: "#999", strokeWidth: 0.5 },
+        fallbackScale: { maxScaleDenominator: 50_000 },
+      },
+    };
+    expect(() => StyleModelSchema.parse(model)).not.toThrow();
+  });
+
+  it("accepts top-level scale on single-symbolizer models", () => {
+    const model: StyleModel = {
+      name: "detail",
+      geom: "polygon",
+      symbolizer: { kind: "polygon", fill: "#eee" },
+      scale: { minScaleDenominator: 1_000, maxScaleDenominator: 50_000 },
+    };
+    expect(() => StyleModelSchema.parse(model)).not.toThrow();
+  });
+
+  it("rejects scale ranges where min > max", () => {
+    const bad = {
+      name: "x",
+      geom: "polygon",
+      symbolizer: { kind: "polygon", fill: "#fff" },
+      scale: { minScaleDenominator: 5_000_000, maxScaleDenominator: 5_000 },
+    };
+    expect(StyleModelSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it("accepts line label placement on line geometry", () => {
+    const model: StyleModel = {
+      name: "roads_labeled",
+      geom: "line",
+      symbolizer: { kind: "line", stroke: "#000", strokeWidth: 1 },
+      label: {
+        field: "name",
+        placement: {
+          kind: "line",
+          followLine: true,
+          repeat: 150,
+          maxDisplacement: 50,
+        },
+      },
+    };
+    expect(() => StyleModelSchema.parse(model)).not.toThrow();
+  });
+
+  it("rejects line label placement on polygon geometry", () => {
+    const bad = {
+      name: "areas",
+      geom: "polygon",
+      symbolizer: { kind: "polygon", fill: "#eee" },
+      label: {
+        field: "name",
+        placement: { kind: "line", followLine: true },
+      },
+    };
+    expect(StyleModelSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it("accepts point label placement on line geometry (anchor/offset)", () => {
+    const model: StyleModel = {
+      name: "roads_centroid_labels",
+      geom: "line",
+      symbolizer: { kind: "line", stroke: "#000", strokeWidth: 1 },
+      label: {
+        field: "name",
+        placement: { kind: "point", anchorX: 0.5, anchorY: 0.5, offsetY: -6 },
+      },
+    };
+    expect(() => StyleModelSchema.parse(model)).not.toThrow();
+  });
 });
 
 describe("validateStyleModel", () => {
@@ -75,5 +160,26 @@ describe("validateStyleModel", () => {
     const r = validateStyleModel({ name: "", geom: "polygon" });
     expect(r.ok).toBe(false);
     expect(r.errors.length).toBeGreaterThan(0);
+  });
+
+  it("warns when top-level scale is set alongside classification", () => {
+    const r = validateStyleModel({
+      name: "x",
+      geom: "polygon",
+      scale: { maxScaleDenominator: 50_000 },
+      classification: {
+        field: "F",
+        classes: [
+          {
+            label: "a",
+            filter: { op: "eq", value: 1 },
+            symbolizer: { kind: "polygon", fill: "#111" },
+          },
+        ],
+        fallback: { kind: "polygon", fill: "#999" },
+      },
+    });
+    expect(r.ok).toBe(true);
+    expect(r.warnings.some((w) => w.includes("top-level `scale`"))).toBe(true);
   });
 });

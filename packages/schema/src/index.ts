@@ -101,13 +101,50 @@ export const AnySymbolizerSchema = z.discriminatedUnion("kind", [
 export type AnySymbolizer = z.infer<typeof AnySymbolizerSchema>;
 
 // ---------------------------------------------------------------------------
+// Scale range
+// ---------------------------------------------------------------------------
+
+/**
+ * A scale range for zoom-dependent rules. Values are OGC SLD-style scale
+ * *denominators*: `50000` means "at zoom levels where the map scale is 1:50 000".
+ * Bigger denominator = more zoomed out.
+ *
+ * Both bounds are optional. When both are set, `minScaleDenominator` must be
+ * ≤ `maxScaleDenominator` (the range would otherwise never match).
+ *
+ * Attach a `ScaleRange` to a `StyleRuleClass`, a `classification.fallbackScale`,
+ * or to the top-level `StyleModel.scale` when using a single symbolizer. The
+ * compiler emits `<MinScaleDenominator>` / `<MaxScaleDenominator>` in the
+ * corresponding SLD Rule.
+ */
+export const ScaleRangeSchema = z
+  .object({
+    /** Include features when the current map denominator is ≥ this value. */
+    minScaleDenominator: z.number().positive().optional(),
+    /** Include features when the current map denominator is ≤ this value. */
+    maxScaleDenominator: z.number().positive().optional(),
+  })
+  .refine(
+    (s) =>
+      s.minScaleDenominator == null ||
+      s.maxScaleDenominator == null ||
+      s.minScaleDenominator <= s.maxScaleDenominator,
+    {
+      message:
+        "minScaleDenominator must be ≤ maxScaleDenominator (larger denominator = more zoomed out).",
+    },
+  );
+export type ScaleRange = z.infer<typeof ScaleRangeSchema>;
+
+// ---------------------------------------------------------------------------
 // Classification
 // ---------------------------------------------------------------------------
 
 /**
  * A single class in an attribute-based classification (choropleth, etc.).
  * `filter` narrows features by a single field/op/value; `symbolizer` is what
- * matching features look like.
+ * matching features look like. `scale` (optional) limits the class to a zoom
+ * range — useful for showing detail categories only at large scales.
  */
 export const StyleRuleClassSchema = z.object({
   /** Legend label. */
@@ -122,6 +159,8 @@ export const StyleRuleClassSchema = z.object({
     ]),
   }),
   symbolizer: AnySymbolizerSchema,
+  /** Zoom range for this class — undefined means "at every scale". */
+  scale: ScaleRangeSchema.optional(),
 });
 export type StyleRuleClass = z.infer<typeof StyleRuleClassSchema>;
 
@@ -133,6 +172,71 @@ export type StyleRuleClass = z.infer<typeof StyleRuleClassSchema>;
  * TextSymbolizer configuration for label rendering.
  * OGC SLD 1.0 § 11.6 (TextSymbolizer).
  */
+/**
+ * Where a label sits relative to the feature it decorates.
+ *
+ * - `point` — the OGC-default placement. Anchor + offset + rotation. Fine for
+ *   point features, and (for lines/polygons) for a single label near the
+ *   geometry's centroid.
+ * - `line` — SLD 1.0 `<LinePlacement>` with GeoServer vendor options that
+ *   make the label follow the road's shape, repeat at intervals, group
+ *   collinear features under one label, etc. Only meaningful for line
+ *   geometries. Setting `kind: "line"` on a polygon/point style is rejected
+ *   by the top-level refine below.
+ *
+ * VendorOption fields map 1:1 to GeoServer's labelling vendor options:
+ * https://docs.geoserver.org/latest/en/user/styling/sld/reference/labeling.html
+ */
+export const PointLabelPlacementSchema = z.object({
+  kind: z.literal("point"),
+  /** SLD AnchorPointX in [0, 1]. 0 = left, 1 = right. Defaults to 0.5. */
+  anchorX: z.number().min(0).max(1).optional(),
+  /** SLD AnchorPointY in [0, 1]. 0 = bottom, 1 = top. Defaults to 0.5. */
+  anchorY: z.number().min(0).max(1).optional(),
+  /** Pixel offset from the anchor. */
+  offsetX: z.number().optional(),
+  offsetY: z.number().optional(),
+  /** Rotation in degrees, clockwise. */
+  rotation: z.number().optional(),
+});
+export type PointLabelPlacement = z.infer<typeof PointLabelPlacementSchema>;
+
+export const LineLabelPlacementSchema = z.object({
+  kind: z.literal("line"),
+  /** Perpendicular offset in pixels — positive = left of line direction. */
+  perpendicularOffset: z.number().optional(),
+  /** VendorOption `followLine`. When true, the label bends along the line. */
+  followLine: z.boolean().optional(),
+  /** VendorOption `repeat` — repeat the label every N pixels along the line. */
+  repeat: z.number().positive().optional(),
+  /**
+   * VendorOption `maxDisplacement` — how far in pixels the renderer may push
+   * a label sideways to fit it. Bigger = more forgiving placement.
+   */
+  maxDisplacement: z.number().nonnegative().optional(),
+  /**
+   * VendorOption `maxAngleDelta` — maximum angle (deg) between consecutive
+   * characters. Prevents letters from wrapping around sharp corners.
+   */
+  maxAngleDelta: z.number().nonnegative().optional(),
+  /**
+   * VendorOption `group` — when "yes", collinear features that share the
+   * `field` value get one shared label instead of one label each.
+   */
+  group: z.boolean().optional(),
+  /** VendorOption `autoWrap` — auto wrap long labels at N pixels. */
+  autoWrap: z.number().positive().optional(),
+  /** VendorOption `spaceAround` — minimum spacing to any other label. */
+  spaceAround: z.number().nonnegative().optional(),
+});
+export type LineLabelPlacement = z.infer<typeof LineLabelPlacementSchema>;
+
+export const LabelPlacementSchema = z.discriminatedUnion("kind", [
+  PointLabelPlacementSchema,
+  LineLabelPlacementSchema,
+]);
+export type LabelPlacement = z.infer<typeof LabelPlacementSchema>;
+
 export const StyleLabelSchema = z.object({
   field: z.string(),
   fontFamily: z.string().optional(),
@@ -143,6 +247,13 @@ export const StyleLabelSchema = z.object({
   /** Only render labels when the map is between these scales. */
   minScale: z.number().nonnegative().optional(),
   maxScale: z.number().nonnegative().optional(),
+  /**
+   * How the label is anchored. Omit → GeoServer default (equivalent to a
+   * point placement centred on the geometry). Set `kind: "line"` to follow
+   * the line direction — the compiler emits `<LinePlacement>` and the
+   * relevant `<VendorOption>` block.
+   */
+  placement: LabelPlacementSchema.optional(),
 });
 export type StyleLabel = z.infer<typeof StyleLabelSchema>;
 
@@ -167,17 +278,32 @@ export const StyleModelSchema = z
         classes: z.array(StyleRuleClassSchema).min(1),
         /** Fallback symbolizer for features not matched by any class. */
         fallback: AnySymbolizerSchema.optional(),
+        /** Zoom range for the else-rule. Independent of individual class scales. */
+        fallbackScale: ScaleRangeSchema.optional(),
       })
       .optional(),
     /** Single-rule styling (no classification). */
     symbolizer: AnySymbolizerSchema.optional(),
+    /**
+     * Zoom range for the single-symbolizer rule. Only meaningful when
+     * `symbolizer` is set (classification uses per-class `scale` instead).
+     */
+    scale: ScaleRangeSchema.optional(),
     /** Optional TextSymbolizer overlay. */
     label: StyleLabelSchema.optional(),
   })
   .refine((m) => Boolean(m.classification) || Boolean(m.symbolizer), {
     message:
       "StyleModel must have either `symbolizer` (single rule) or `classification` (attribute-based).",
-  });
+  })
+  .refine(
+    (m) => m.label?.placement?.kind !== "line" || m.geom === "line",
+    {
+      message:
+        "label.placement.kind: 'line' is only valid on line-geometry styles. Use kind: 'point' (or omit placement) for point/polygon geometries.",
+      path: ["label", "placement", "kind"],
+    },
+  );
 export type StyleModel = z.infer<typeof StyleModelSchema>;
 
 // ---------------------------------------------------------------------------
@@ -214,6 +340,11 @@ export function validateStyleModel(model: unknown): StyleModelValidation {
   if (!m.classification?.fallback && !m.symbolizer) {
     warnings.push(
       "no fallback symbolizer — features outside every class will not render",
+    );
+  }
+  if (m.classification && m.scale) {
+    warnings.push(
+      "top-level `scale` is ignored when `classification` is set — put scale on each class or on `classification.fallbackScale` instead",
     );
   }
   return { ok: true, errors, warnings };

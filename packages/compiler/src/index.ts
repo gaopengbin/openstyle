@@ -16,9 +16,12 @@
 import type {
   AnySymbolizer,
   ClassifyOp,
+  LineLabelPlacement,
   LineSymbolizer,
+  PointLabelPlacement,
   PointSymbolizer,
   PolygonSymbolizer,
+  ScaleRange,
   StyleLabel,
   StyleModel,
   StyleRuleClass,
@@ -172,8 +175,47 @@ function symbolizerXml(s: AnySymbolizer): string {
   }
 }
 
+/** SLD PointPlacement — anchor + optional offset + optional rotation. */
+function pointPlacementXml(p: PointLabelPlacement): string {
+  const anchor = `<AnchorPoint><AnchorPointX>${p.anchorX ?? 0.5}</AnchorPointX><AnchorPointY>${p.anchorY ?? 0.5}</AnchorPointY></AnchorPoint>`;
+  const offset =
+    p.offsetX != null || p.offsetY != null
+      ? `<Displacement><DisplacementX>${p.offsetX ?? 0}</DisplacementX><DisplacementY>${p.offsetY ?? 0}</DisplacementY></Displacement>`
+      : "";
+  const rotation = p.rotation != null ? `<Rotation>${p.rotation}</Rotation>` : "";
+  return `<LabelPlacement><PointPlacement>${anchor}${offset}${rotation}</PointPlacement></LabelPlacement>`;
+}
+
+/**
+ * SLD LinePlacement + the GeoServer VendorOption block that makes a line
+ * label actually follow the line. VendorOptions live inside TextSymbolizer,
+ * not inside LinePlacement — order matters here.
+ */
+function linePlacementXml(p: LineLabelPlacement): { placement: string; vendorOptions: string } {
+  const perpendicular =
+    p.perpendicularOffset != null
+      ? `<PerpendicularOffset>${p.perpendicularOffset}</PerpendicularOffset>`
+      : "";
+  const placement = `<LabelPlacement><LinePlacement>${perpendicular}</LinePlacement></LabelPlacement>`;
+
+  const vo: string[] = [];
+  if (p.followLine) vo.push(`<VendorOption name="followLine">true</VendorOption>`);
+  if (p.repeat != null) vo.push(`<VendorOption name="repeat">${p.repeat}</VendorOption>`);
+  if (p.maxDisplacement != null)
+    vo.push(`<VendorOption name="maxDisplacement">${p.maxDisplacement}</VendorOption>`);
+  if (p.maxAngleDelta != null)
+    vo.push(`<VendorOption name="maxAngleDelta">${p.maxAngleDelta}</VendorOption>`);
+  if (p.group) vo.push(`<VendorOption name="group">yes</VendorOption>`);
+  if (p.autoWrap != null)
+    vo.push(`<VendorOption name="autoWrap">${p.autoWrap}</VendorOption>`);
+  if (p.spaceAround != null)
+    vo.push(`<VendorOption name="spaceAround">${p.spaceAround}</VendorOption>`);
+
+  return { placement, vendorOptions: vo.join("") };
+}
+
 function labelXml(label: StyleLabel): string {
-  return `<TextSymbolizer><Label>${propertyName(label.field)}</Label><Font>${
+  const font = `<Font>${
     label.fontFamily
       ? `<CssParameter name="font-family">${esc(label.fontFamily)}</CssParameter>`
       : ""
@@ -181,25 +223,61 @@ function labelXml(label: StyleLabel): string {
     label.fontSize != null
       ? `<CssParameter name="font-size">${label.fontSize}</CssParameter>`
       : ""
-  }</Font><Fill>${
+  }</Font>`;
+  const fill = `<Fill>${
     label.fontColor
       ? `<CssParameter name="fill">${esc(label.fontColor)}</CssParameter>`
       : ""
-  }</Fill>${
-    label.haloColor
-      ? `<Halo><Radius>${label.haloWidth ?? 1}</Radius><Fill><CssParameter name="fill">${esc(label.haloColor)}</CssParameter></Fill></Halo>`
-      : ""
-  }</TextSymbolizer>`;
+  }</Fill>`;
+  const halo = label.haloColor
+    ? `<Halo><Radius>${label.haloWidth ?? 1}</Radius><Fill><CssParameter name="fill">${esc(label.haloColor)}</CssParameter></Fill></Halo>`
+    : "";
+
+  // Decide placement. Missing placement → GeoServer default (equivalent to
+  // an implicit point placement) — we emit nothing rather than a redundant
+  // <PointPlacement> block to keep the XML compact.
+  let placementXml = "";
+  let vendorOptions = "";
+  if (label.placement?.kind === "line") {
+    const out = linePlacementXml(label.placement);
+    placementXml = out.placement;
+    vendorOptions = out.vendorOptions;
+  } else if (label.placement?.kind === "point") {
+    placementXml = pointPlacementXml(label.placement);
+  }
+
+  // Ordering per SLD 1.0 § 11.6 (TextSymbolizer):
+  //   Geometry?, Label?, Font?, LabelPlacement?, Halo?, Fill?
+  // VendorOption is a GeoServer extension appended at the end.
+  return `<TextSymbolizer><Label>${propertyName(label.field)}</Label>${font}${placementXml}${halo}${fill}${vendorOptions}</TextSymbolizer>`;
+}
+
+/**
+ * Emit `<MinScaleDenominator>` / `<MaxScaleDenominator>` XML. OGC SLD 1.0
+ * requires this block to sit AFTER Filter/ElseFilter and BEFORE the
+ * symbolizers within a Rule. Only emits elements that have values.
+ */
+function scaleXml(scale: ScaleRange | undefined): string {
+  if (!scale) return "";
+  let out = "";
+  if (scale.minScaleDenominator != null) {
+    out += `<MinScaleDenominator>${scale.minScaleDenominator}</MinScaleDenominator>`;
+  }
+  if (scale.maxScaleDenominator != null) {
+    out += `<MaxScaleDenominator>${scale.maxScaleDenominator}</MaxScaleDenominator>`;
+  }
+  return out;
 }
 
 function buildRule(
   name: string,
   title: string,
   filter: string,
+  scale: ScaleRange | undefined,
   body: string,
   label: StyleLabel | undefined,
 ): string {
-  return `<Rule><Name>${esc(name)}</Name><Title>${esc(title)}</Title>${filter}${body}${
+  return `<Rule><Name>${esc(name)}</Name><Title>${esc(title)}</Title>${filter}${scaleXml(scale)}${body}${
     label ? labelXml(label) : ""
   }</Rule>`;
 }
@@ -207,10 +285,11 @@ function buildRule(
 function buildElseRule(
   name: string,
   title: string,
+  scale: ScaleRange | undefined,
   body: string,
   label: StyleLabel | undefined,
 ): string {
-  return `<Rule><Name>${esc(name)}</Name><Title>${esc(title)}</Title><ElseFilter/>${body}${
+  return `<Rule><Name>${esc(name)}</Name><Title>${esc(title)}</Title><ElseFilter/>${scaleXml(scale)}${body}${
     label ? labelXml(label) : ""
   }</Rule>`;
 }
@@ -231,7 +310,14 @@ export function compileToSld(model: StyleModel): string {
     model.classification.classes.forEach((c, idx) => {
       const f = buildFilter(field, c.filter.op, c.filter.value);
       rules.push(
-        buildRule(`rule-${idx}`, c.label, f, symbolizerXml(c.symbolizer), model.label),
+        buildRule(
+          `rule-${idx}`,
+          c.label,
+          f,
+          c.scale,
+          symbolizerXml(c.symbolizer),
+          model.label,
+        ),
       );
     });
     if (model.classification.fallback) {
@@ -239,6 +325,7 @@ export function compileToSld(model: StyleModel): string {
         buildElseRule(
           "rule-else",
           "other",
+          model.classification.fallbackScale,
           symbolizerXml(model.classification.fallback),
           model.label,
         ),
@@ -250,6 +337,7 @@ export function compileToSld(model: StyleModel): string {
         "rule-0",
         model.title || model.name,
         "",
+        model.scale,
         symbolizerXml(model.symbolizer),
         model.label,
       ),

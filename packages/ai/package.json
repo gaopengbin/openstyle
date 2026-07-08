@@ -1,6 +1,6 @@
 {
   "name": "@openstyle/ai",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "description": "System-prompt builder, field-reference validators, and SLD diff helpers for LLM-driven style generation.",
   "license": "MIT",
   "type": "module",

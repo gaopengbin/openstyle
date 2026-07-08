@@ -28,6 +28,35 @@ describe("buildSystemPrompt", () => {
     expect(p).toContain('"classification"');
     expect(p).toContain("Do not include markdown");
   });
+
+  it("teaches zoom-dependent styling via minScale/maxScale", () => {
+    const p = buildSystemPrompt();
+    expect(p).toContain("minScaleDenominator");
+    expect(p).toContain("maxScaleDenominator");
+    // The prompt should gate scale usage — only when user asks for it
+    expect(p).toContain("zoom-dependent");
+  });
+
+  it("forbids duplicate filters without scale (unreachable rule guard)", () => {
+    const p = buildSystemPrompt();
+    // Signals the model that identical filters must be zoom-partitioned
+    expect(p).toMatch(/no scale, no duplicate filter/i);
+    expect(p).toContain("unreachable");
+  });
+
+  it("mandates line-following placement for labels on line geometries", () => {
+    const p = buildSystemPrompt();
+    expect(p).toMatch(/labels on lines must follow the line/i);
+    expect(p).toContain('kind: "line"');
+    expect(p).toContain("followLine");
+  });
+
+  it("forbids skipping label when the user asks for labels", () => {
+    const p = buildSystemPrompt();
+    expect(p).toMatch(/if the user asks for labels, you must emit/i);
+    // Push back on the model's tendency to invent schema limitations
+    expect(p).toContain("hallucinate limitations");
+  });
 });
 
 describe("inferStyleModelGeom", () => {
@@ -126,6 +155,80 @@ describe("validateSldPreflight", () => {
     const sld = `<StyledLayerDescriptor><NamedLayer><Rule><PolygonSymbolizer><CssParameter>ascii_style_name</CssParameter></PolygonSymbolizer></Rule></NamedLayer></StyledLayerDescriptor>`;
     const issues = validateSldPreflight(sld);
     expect(issues.some((i) => i.id === "sld-placeholder-text")).toBe(true);
+  });
+
+  it("flags duplicate rule filters without scale (unreachable rules)", () => {
+    // Same filter across two rules, neither has scale — only the first fires.
+    const sld = `<StyledLayerDescriptor><NamedLayer>
+      <Rule>
+        <ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>cat</ogc:PropertyName><ogc:Literal>1</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+        <LineSymbolizer><Stroke><CssParameter name="stroke-width">1</CssParameter></Stroke></LineSymbolizer>
+      </Rule>
+      <Rule>
+        <ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>cat</ogc:PropertyName><ogc:Literal>1</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+        <LineSymbolizer><Stroke><CssParameter name="stroke-width">3</CssParameter></Stroke></LineSymbolizer>
+      </Rule>
+    </NamedLayer></StyledLayerDescriptor>`;
+    const issues = validateSldPreflight(sld);
+    expect(issues.some((i) => i.id === "sld-duplicate-filter-no-scale")).toBe(
+      true,
+    );
+  });
+
+  it("accepts duplicate filters when every rule has a partitioning scale", () => {
+    const sld = `<StyledLayerDescriptor><NamedLayer>
+      <Rule>
+        <ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>cat</ogc:PropertyName><ogc:Literal>1</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+        <MaxScaleDenominator>50000</MaxScaleDenominator>
+        <LineSymbolizer><Stroke><CssParameter name="stroke-width">3</CssParameter></Stroke></LineSymbolizer>
+      </Rule>
+      <Rule>
+        <ogc:Filter><ogc:PropertyIsEqualTo><ogc:PropertyName>cat</ogc:PropertyName><ogc:Literal>1</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>
+        <MinScaleDenominator>50000</MinScaleDenominator>
+        <LineSymbolizer><Stroke><CssParameter name="stroke-width">1</CssParameter></Stroke></LineSymbolizer>
+      </Rule>
+    </NamedLayer></StyledLayerDescriptor>`;
+    const issues = validateSldPreflight(sld);
+    expect(issues.some((i) => i.id === "sld-duplicate-filter-no-scale")).toBe(
+      false,
+    );
+  });
+
+  it("does not flag ElseFilter as a duplication problem", () => {
+    const sld = `<StyledLayerDescriptor><NamedLayer>
+      <Rule><ogc:ElseFilter/><LineSymbolizer/></Rule>
+      <Rule><ogc:ElseFilter/><LineSymbolizer/></Rule>
+    </NamedLayer></StyledLayerDescriptor>`;
+    const issues = validateSldPreflight(sld);
+    expect(issues.some((i) => i.id === "sld-duplicate-filter-no-scale")).toBe(
+      false,
+    );
+  });
+
+  it("flags line label without LinePlacement (centroid label mistake)", () => {
+    const sld = `<StyledLayerDescriptor><NamedLayer><Rule>
+      <LineSymbolizer><Stroke/></LineSymbolizer>
+      <TextSymbolizer><Label><ogc:PropertyName>name</ogc:PropertyName></Label></TextSymbolizer>
+    </Rule></NamedLayer></StyledLayerDescriptor>`;
+    const issues = validateSldPreflight(sld);
+    expect(
+      issues.some((i) => i.id === "sld-line-label-not-along-line"),
+    ).toBe(true);
+  });
+
+  it("accepts line label with LinePlacement", () => {
+    const sld = `<StyledLayerDescriptor><NamedLayer><Rule>
+      <LineSymbolizer><Stroke/></LineSymbolizer>
+      <TextSymbolizer>
+        <Label><ogc:PropertyName>name</ogc:PropertyName></Label>
+        <LabelPlacement><LinePlacement><PerpendicularOffset>6</PerpendicularOffset></LinePlacement></LabelPlacement>
+        <VendorOption name="followLine">true</VendorOption>
+      </TextSymbolizer>
+    </Rule></NamedLayer></StyledLayerDescriptor>`;
+    const issues = validateSldPreflight(sld);
+    expect(
+      issues.some((i) => i.id === "sld-line-label-not-along-line"),
+    ).toBe(false);
   });
 });
 

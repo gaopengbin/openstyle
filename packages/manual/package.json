@@ -1,6 +1,6 @@
 {
   "name": "@openstyle/manual",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "description": "Cookbook-distilled reference material for AI-driven map styling: scale ladders, palettes, few-shot examples.",
   "license": "MIT",
   "type": "module",
