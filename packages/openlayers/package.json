@@ -1,0 +1,43 @@
+{
+  "name": "@openstyle/openlayers",
+  "version": "0.5.0",
+  "description": "Deterministic OpenLayers style compiler for OpenStyle StyleModel.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@openstyle/schema": "workspace:*"
+  },
+  "peerDependencies": {
+    "ol": ">=10 <11"
+  },
+  "devDependencies": {
+    "ol": "^10.6.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaopengbin/openstyle.git",
+    "directory": "packages/openlayers"
+  },
+  "keywords": ["openlayers", "gis", "cartography", "openstyle", "stylemodel"]
+}

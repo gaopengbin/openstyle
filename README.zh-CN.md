@@ -26,6 +26,7 @@
 | --- | --- |
 | [`@openstyle/schema`](./packages/schema) | `StyleModel` 类型 + zod schema + 校验器 |
 | [`@openstyle/compiler`](./packages/compiler) | `compileToSld` / `formatSld`——确定性 SLD 1.0 生成器 |
+| [`@openstyle/openlayers`](./packages/openlayers) | `compileToOpenLayers`——确定性 OpenLayers `StyleFunction` 适配器 |
 | [`@openstyle/manual`](./packages/manual) | 精简版 Cookbook(比例尺阶梯、调色板、few-shot) |
 | [`@openstyle/ai`](./packages/ai) | 系统 prompt 构建器 + 字段引用校验 + SLD diff |
 
@@ -63,7 +64,8 @@ openstyle/
 │   ├── schema/     # zod schema + 类型
 │   ├── compiler/   # SLD 1.0 XML 生成器
 │   ├── manual/     # AI prompt 手册 + few-shot 库
-│   └── ai/         # 系统 prompt 构建器 + 校验器
+│   ├── ai/         # 系统 prompt 构建器 + 校验器
+│   └── openlayers/ # OpenLayers StyleFunction 适配器
 ├── apps/
 │   └── docs/       # VitePress 文档站
 ├── skills/         # Claude Code skills(sld-generator / sld-review / sld-cookbook)

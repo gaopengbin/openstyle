@@ -26,6 +26,7 @@ Extracted from [GeoServer-AI-Style-Studio](https://github.com/gaopengbin/GeoServ
 | --- | --- |
 | [`@openstyle/schema`](./packages/schema) | `StyleModel` TypeScript type + zod schema + validators |
 | [`@openstyle/compiler`](./packages/compiler) | `compileToSld` / `formatSld` — deterministic SLD 1.0 emitter |
+| [`@openstyle/openlayers`](./packages/openlayers) | `compileToOpenLayers` — deterministic OpenLayers `StyleFunction` adapter |
 | [`@openstyle/manual`](./packages/manual) | Cookbook-distilled prompt manual (scale ladders, palettes, few-shot) |
 | [`@openstyle/ai`](./packages/ai) | System-prompt builder + field-reference validators + SLD diff |
 
@@ -63,7 +64,8 @@ openstyle/
 │   ├── schema/     # zod schema + types
 │   ├── compiler/   # SLD 1.0 XML emitter
 │   ├── manual/     # AI prompt manual & few-shot library
-│   └── ai/         # system-prompt builder + validators
+│   ├── ai/         # system-prompt builder + validators
+│   └── openlayers/ # OpenLayers StyleFunction adapter
 ├── apps/
 │   └── docs/       # VitePress documentation site
 ├── skills/         # Claude Code skills (sld-generator, sld-review, sld-cookbook)
