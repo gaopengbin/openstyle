@@ -4,9 +4,7 @@
 
 ## Install
 
-```bash
-pnpm add @openstyle/compiler @openstyle/schema
-```
+Version 0.7.0 is distributed in the [GitHub prerelease bundle](https://github.com/gaopengbin/openstyle/releases/tag/v0.7.0). Extract `openstyle-0.7.0-bundle.zip` and run `pnpm install` from its directory. Keep its local tarballs and `pnpm.overrides` when integrating these packages. Third-party dependencies still require registry access or a populated cache; npm publication of this version is pending.
 
 ## Usage
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { copyFile, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { gunzipSync } from 'node:zlib';
+import { gunzipSync, gzipSync } from 'node:zlib';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const names = ['adapter', 'ai', 'cartography', 'compiler', 'manual', 'maplibre', 'openlayers', 'schema'];
@@ -12,17 +12,56 @@ const semver = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$/;
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const json = (value) => Buffer.from(`${JSON.stringify(value, null, 2)}\n`);
 
-function packedManifest(bytes) {
-  const tar = gunzipSync(bytes);
+function packedManifestEntry(tar) {
   for (let offset = 0; offset + 512 <= tar.length;) {
     const name = tar.subarray(offset, offset + 100).toString('utf8').replace(/\0.*$/, '');
     if (!name) break;
     const size = Number.parseInt(tar.subarray(offset + 124, offset + 136).toString('ascii').replace(/\0.*$/, '').trim(), 8);
     if (!Number.isSafeInteger(size) || size < 0 || offset + 512 + size > tar.length) throw new Error('Invalid packed tar entry');
-    if (name === 'package/package.json') return JSON.parse(tar.subarray(offset + 512, offset + 512 + size).toString('utf8'));
+    if (name === 'package/package.json') return { offset, size };
     offset += 512 + Math.ceil(size / 512) * 512;
   }
   throw new Error('Packed archive has no package/package.json');
+}
+function packedManifest(bytes) {
+  const tar = gunzipSync(bytes);
+  const { offset, size } = packedManifestEntry(tar);
+  return JSON.parse(tar.subarray(offset + 512, offset + 512 + size).toString('utf8'));
+}
+function normalizeManifestDependencies(manifest) {
+  const normalized = { ...manifest };
+  for (const section of ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']) {
+    const dependencies = manifest[section];
+    if (dependencies !== null && typeof dependencies === 'object' && !Array.isArray(dependencies)) {
+      normalized[section] = Object.fromEntries(Object.keys(dependencies).sort().map((name) => [name, dependencies[name]]));
+    }
+  }
+  // Conditional exports/imports use key order as priority. Preserve their entire
+  // subtrees, and all other manifest fields, exactly as pnpm emitted them.
+  return normalized;
+}
+function normalizePackedTarball(bytes) {
+  const tar = gunzipSync(bytes);
+  const { offset, size } = packedManifestEntry(tar);
+  const originalEnd = offset + 512 + Math.ceil(size / 512) * 512;
+  if (originalEnd > tar.length) throw new Error('Invalid packed manifest padding');
+  const manifest = JSON.parse(tar.subarray(offset + 512, offset + 512 + size).toString('utf8'));
+  const content = json(normalizeManifestDependencies(manifest));
+  const header = Buffer.from(tar.subarray(offset, offset + 512));
+  if (header[156] !== 0 && header[156] !== 0x30) throw new Error('Packed manifest must be a regular file');
+  const octalSize = content.length.toString(8);
+  if (octalSize.length > 11) throw new Error('Packed manifest exceeds tar size limits');
+  header.write(`${octalSize.padStart(11, '0')}\0`, 124, 12, 'ascii');
+  // Tar checksums count the checksum field itself as eight ASCII spaces.
+  header.fill(0x20, 148, 156);
+  const checksum = header.reduce((sum, byte) => sum + byte, 0);
+  header.write(`${checksum.toString(8).padStart(6, '0')}\0 `, 148, 8, 'ascii');
+  const paddedContent = Buffer.alloc(Math.ceil(content.length / 512) * 512);
+  content.copy(paddedContent);
+  // pnpm may emit dependency keys in different orders. Normalize only its
+  // packed manifest; all other tar headers, data and padding remain unchanged.
+  // Node's gzip header uses a zero timestamp, so retries produce the same bytes.
+  return gzipSync(Buffer.concat([tar.subarray(0, offset), header, paddedContent, tar.subarray(originalEnd)]), { level: 9 });
 }
 
 // ZIP method 0 stores the already-compressed tgz files without another codec.
@@ -79,6 +118,7 @@ async function main() {
   if (args.length && !(args.length === 2 && args[0] === '--version' && semver.test(args[1]))) throw new Error('Usage: pnpm release:pack [--version 0.7.0]');
   const pnpm = process.env.npm_execpath;
   if (!pnpm || !/pnpm/i.test(pnpm)) throw new Error('Run this through pnpm release:pack so npm_execpath identifies the pnpm CLI.');
+  const nodePnpm = /\.(?:c?js|mjs)$/i.test(pnpm);
   const workspace = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   const packages = await Promise.all(names.map(async (directory) => ({ directory, manifest: JSON.parse(await readFile(path.join(root, 'packages', directory, 'package.json'), 'utf8')) })));
   const version = args[1] ?? packages[0].manifest.version;
@@ -100,12 +140,12 @@ async function main() {
     const files = [];
     for (const { directory, manifest } of packages) {
       // pnpm resolves workspace:* in packed manifests; do not rewrite source files.
-      execFileSync(process.execPath, [pnpm, 'pack', '--pack-destination', temporary], {
+      execFileSync(nodePnpm ? process.execPath : pnpm, [...(nodePnpm ? [pnpm] : []), 'pack', '--pack-destination', temporary], {
         cwd: path.join(root, 'packages', directory), windowsHide: true,
         env: { ...process.env, npm_config_ignore_scripts: 'true' }, stdio: ['ignore', 'pipe', 'pipe'],
       });
       const filename = `${manifest.name.slice(1).replace('/', '-')}-${version}.tgz`;
-      const bytes = await readFile(path.join(temporary, filename));
+      const bytes = normalizePackedTarball(await readFile(path.join(temporary, filename)));
       const packed = packedManifest(bytes);
       if (packed.name !== manifest.name || packed.version !== version) throw new Error(`Packed identity mismatch: ${filename}`);
       for (const section of ['dependencies', 'optionalDependencies', 'peerDependencies', 'devDependencies']) for (const [dependency, range] of Object.entries(packed[section] ?? {})) {
