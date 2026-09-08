@@ -1,0 +1,1012 @@
+{
+  "provenance": {
+    "dataset": "OpenStreetMap",
+    "license": "ODbL-1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "observedAt": "2026-09-08T04:01:05.927Z",
+    "note": "Real accepted GeoStyle edit; patch reconstructed from recorded changes and before/after style. No feature payload, account, conversation or credential included."
+  },
+  "input": {
+    "style": {
+      "schemaVersion": "0.6.0",
+      "id": "new-york-casing-before",
+      "name": "background_style_bg-caf3d9681a05d2cab5cfa344cf2c44e6e8b4c4f6fcf956bbccd63094f75777af",
+      "background": "#0D1012",
+      "layers": [
+        {
+          "id": "background_0_building",
+          "selector": {
+            "sourceLayers": [
+              "building"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 3,
+          "style": {
+            "name": "gta_building",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#2E3338",
+              "stroke": "#3F454B",
+              "strokeWidth": 0.6
+            }
+          }
+        },
+        {
+          "id": "background_1_landcover",
+          "selector": {
+            "sourceLayers": [
+              "landcover"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 5,
+          "style": {
+            "name": "gta_landcover",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#161B1E",
+              "stroke": "#1d202b",
+              "strokeWidth": 0.4
+            }
+          }
+        },
+        {
+          "id": "background_2_landuse",
+          "selector": {
+            "sourceLayers": [
+              "landuse"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 7,
+          "style": {
+            "name": "gta_landuse",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#161B1E",
+              "stroke": "#1d202b",
+              "strokeWidth": 0.4
+            }
+          }
+        },
+        {
+          "id": "background_3_park",
+          "selector": {
+            "sourceLayers": [
+              "park"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 9,
+          "style": {
+            "name": "gta_park",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#1a2023",
+              "stroke": "#232a2e",
+              "strokeWidth": 0.4
+            }
+          }
+        },
+        {
+          "id": "background_4_place",
+          "selector": {
+            "sourceLayers": [
+              "place"
+            ],
+            "geometry": "point"
+          },
+          "zIndex": 15,
+          "style": {
+            "name": "gta_place_labels",
+            "geom": "point",
+            "symbolizer": {
+              "kind": "point",
+              "shape": "circle",
+              "fill": "#55D6D2",
+              "stroke": "#0D1012",
+              "strokeWidth": 1,
+              "size": 5
+            },
+            "label": {
+              "field": "name",
+              "fontSize": 12,
+              "fontColor": "#EEF0ED",
+              "haloColor": "#0D1012",
+              "haloWidth": 3,
+              "placement": {
+                "kind": "point",
+                "anchorX": 0.5,
+                "anchorY": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "background_5_poi",
+          "selector": {
+            "sourceLayers": [
+              "poi"
+            ],
+            "geometry": "point"
+          },
+          "zIndex": 17,
+          "style": {
+            "name": "gta_poi_quiet",
+            "geom": "point",
+            "symbolizer": {
+              "kind": "point",
+              "shape": "circle",
+              "fill": "#4A4F57",
+              "stroke": "#0D1012",
+              "strokeWidth": 1,
+              "size": 3
+            },
+            "scale": {
+              "minScaleDenominator": 1,
+              "maxScaleDenominator": 8000
+            }
+          }
+        },
+        {
+          "id": "background_6_transportation_underlay",
+          "selector": {
+            "sourceLayers": [
+              "transportation"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 10,
+          "style": {
+            "name": "gta_road_hierarchy",
+            "geom": "line",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "major",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "motorway",
+                      "trunk",
+                      "primary",
+                      "secondary"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#0A0C0F",
+                    "strokeWidth": 6.4
+                  }
+                },
+                {
+                  "label": "tertiary",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "tertiary",
+                      "primary_link",
+                      "secondary_link",
+                      "trunk_link"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#0A0C0F",
+                    "strokeWidth": 5.2
+                  }
+                },
+                {
+                  "label": "local",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "residential",
+                      "unclassified",
+                      "service",
+                      "living_street",
+                      "pedestrian",
+                      "footway",
+                      "cycleway",
+                      "path",
+                      "steps",
+                      "construction",
+                      "elevator"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#0A0C0F",
+                    "strokeWidth": 4
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "line",
+                "stroke": "#0A0C0F",
+                "strokeWidth": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "background_6_transportation",
+          "selector": {
+            "sourceLayers": [
+              "transportation"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 11,
+          "style": {
+            "name": "gta_road_hierarchy",
+            "geom": "line",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "major",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "motorway",
+                      "trunk",
+                      "primary",
+                      "secondary"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#EEF0ED",
+                    "strokeWidth": 3.4
+                  }
+                },
+                {
+                  "label": "tertiary",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "tertiary",
+                      "primary_link",
+                      "secondary_link",
+                      "trunk_link"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#B8BDBE",
+                    "strokeWidth": 2.2
+                  }
+                },
+                {
+                  "label": "local",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "residential",
+                      "unclassified",
+                      "service",
+                      "living_street",
+                      "pedestrian",
+                      "footway",
+                      "cycleway",
+                      "path",
+                      "steps",
+                      "construction",
+                      "elevator"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#3A3F45",
+                    "strokeWidth": 1
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "line",
+                "stroke": "#3A3F45",
+                "strokeWidth": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "background_7_transportation_name",
+          "selector": {
+            "sourceLayers": [
+              "transportation_name"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 13,
+          "style": {
+            "name": "gta_road_labels",
+            "geom": "line",
+            "symbolizer": {
+              "kind": "line",
+              "stroke": "rgba(0,0,0,0)",
+              "strokeWidth": 0
+            },
+            "label": {
+              "field": "name",
+              "fontSize": 11,
+              "fontColor": "#D8DCDD",
+              "haloColor": "#0D1012",
+              "haloWidth": 5,
+              "placement": {
+                "kind": "line",
+                "followLine": true,
+                "repeat": 300
+              }
+            }
+          }
+        },
+        {
+          "id": "background_8_water",
+          "selector": {
+            "sourceLayers": [
+              "water"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 5,
+          "style": {
+            "name": "gta_water",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#060A0D",
+              "stroke": "#1E3A4A",
+              "strokeWidth": 1
+            }
+          }
+        },
+        {
+          "id": "background_9_water_name",
+          "selector": {
+            "sourceLayers": [
+              "water_name"
+            ],
+            "geometry": "point"
+          },
+          "zIndex": 9,
+          "style": {
+            "name": "gta_water_name",
+            "geom": "point",
+            "symbolizer": {
+              "kind": "point",
+              "fill": "#AEB4B6",
+              "size": 3
+            },
+            "label": {
+              "field": "name",
+              "fontFamily": "Arial",
+              "fontSize": 11,
+              "fontColor": "#AEB4B6",
+              "haloColor": "#0D1012",
+              "haloWidth": 2,
+              "placement": {
+                "kind": "point",
+                "anchorX": 0.5,
+                "anchorY": 0.5
+              }
+            }
+          }
+        },
+        {
+          "id": "background_10_waterway",
+          "selector": {
+            "sourceLayers": [
+              "waterway"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 7,
+          "style": {
+            "name": "gta_waterway",
+            "geom": "line",
+            "symbolizer": {
+              "kind": "line",
+              "stroke": "#1E3A4A",
+              "strokeWidth": 1.6
+            }
+          }
+        }
+      ]
+    },
+    "profile": {
+      "sourceId": "fixture://new-york-casing",
+      "layers": [
+        {
+          "id": "building",
+          "geometry": "polygon",
+          "fields": [
+            "amenity",
+            "class",
+            "elevation",
+            "name",
+            "operator",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height",
+            "shop",
+            "surface",
+            "tourism"
+          ]
+        },
+        {
+          "id": "landcover",
+          "geometry": "polygon",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height"
+          ]
+        },
+        {
+          "id": "landuse",
+          "geometry": "polygon",
+          "fields": [
+            "amenity",
+            "class",
+            "elevation",
+            "name",
+            "operator",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height"
+          ]
+        },
+        {
+          "id": "park",
+          "geometry": "polygon",
+          "fields": [
+            "class",
+            "elevation",
+            "name",
+            "operator",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height",
+            "surface"
+          ]
+        },
+        {
+          "id": "place",
+          "geometry": "point",
+          "fields": [
+            "class",
+            "elevation",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "tourism"
+          ]
+        },
+        {
+          "id": "poi",
+          "geometry": "point",
+          "fields": [
+            "amenity",
+            "class",
+            "elevation",
+            "name",
+            "operator",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height",
+            "shop",
+            "surface",
+            "tourism"
+          ]
+        },
+        {
+          "id": "transportation",
+          "geometry": "line",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height",
+            "surface"
+          ]
+        },
+        {
+          "id": "transportation_name",
+          "geometry": "line",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height",
+            "surface"
+          ]
+        },
+        {
+          "id": "water",
+          "geometry": "polygon",
+          "fields": [
+            "amenity",
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height"
+          ]
+        },
+        {
+          "id": "water_name",
+          "geometry": "point",
+          "fields": [
+            "amenity",
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height"
+          ]
+        },
+        {
+          "id": "waterway",
+          "geometry": "line",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank"
+          ]
+        }
+      ]
+    },
+    "patch": {
+      "baseStyleId": "new-york-casing-before",
+      "sourceId": "fixture://new-york-casing",
+      "operations": [
+        {
+          "op": "replace",
+          "layerId": "background_6_transportation",
+          "sourceLayer": "transportation",
+          "path": "/casing/width",
+          "value": 2
+        }
+      ]
+    },
+    "resultId": "new-york-casing-after"
+  },
+  "expected": {
+    "schemaVersion": "0.6.0",
+    "id": "new-york-casing-after",
+    "name": "background_style_bg-caf3d9681a05d2cab5cfa344cf2c44e6e8b4c4f6fcf956bbccd63094f75777af",
+    "background": "#0D1012",
+    "layers": [
+      {
+        "id": "background_0_building",
+        "selector": {
+          "sourceLayers": [
+            "building"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 3,
+        "style": {
+          "name": "gta_building",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#2E3338",
+            "stroke": "#3F454B",
+            "strokeWidth": 0.6
+          }
+        }
+      },
+      {
+        "id": "background_1_landcover",
+        "selector": {
+          "sourceLayers": [
+            "landcover"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 5,
+        "style": {
+          "name": "gta_landcover",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#161B1E",
+            "stroke": "#1d202b",
+            "strokeWidth": 0.4
+          }
+        }
+      },
+      {
+        "id": "background_2_landuse",
+        "selector": {
+          "sourceLayers": [
+            "landuse"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 7,
+        "style": {
+          "name": "gta_landuse",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#161B1E",
+            "stroke": "#1d202b",
+            "strokeWidth": 0.4
+          }
+        }
+      },
+      {
+        "id": "background_3_park",
+        "selector": {
+          "sourceLayers": [
+            "park"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 9,
+        "style": {
+          "name": "gta_park",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#1a2023",
+            "stroke": "#232a2e",
+            "strokeWidth": 0.4
+          }
+        }
+      },
+      {
+        "id": "background_4_place",
+        "selector": {
+          "sourceLayers": [
+            "place"
+          ],
+          "geometry": "point"
+        },
+        "zIndex": 15,
+        "style": {
+          "name": "gta_place_labels",
+          "geom": "point",
+          "symbolizer": {
+            "kind": "point",
+            "shape": "circle",
+            "fill": "#55D6D2",
+            "stroke": "#0D1012",
+            "strokeWidth": 1,
+            "size": 5
+          },
+          "label": {
+            "field": "name",
+            "fontSize": 12,
+            "fontColor": "#EEF0ED",
+            "haloColor": "#0D1012",
+            "haloWidth": 3,
+            "placement": {
+              "kind": "point",
+              "anchorX": 0.5,
+              "anchorY": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "background_5_poi",
+        "selector": {
+          "sourceLayers": [
+            "poi"
+          ],
+          "geometry": "point"
+        },
+        "zIndex": 17,
+        "style": {
+          "name": "gta_poi_quiet",
+          "geom": "point",
+          "symbolizer": {
+            "kind": "point",
+            "shape": "circle",
+            "fill": "#4A4F57",
+            "stroke": "#0D1012",
+            "strokeWidth": 1,
+            "size": 3
+          },
+          "scale": {
+            "minScaleDenominator": 1,
+            "maxScaleDenominator": 8000
+          }
+        }
+      },
+      {
+        "id": "background_6_transportation_underlay",
+        "selector": {
+          "sourceLayers": [
+            "transportation"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 10,
+        "style": {
+          "name": "gta_road_hierarchy",
+          "geom": "line",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "major",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "motorway",
+                    "trunk",
+                    "primary",
+                    "secondary"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#0A0C0F",
+                  "strokeWidth": 7.4
+                }
+              },
+              {
+                "label": "tertiary",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "tertiary",
+                    "primary_link",
+                    "secondary_link",
+                    "trunk_link"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#0A0C0F",
+                  "strokeWidth": 6.2
+                }
+              },
+              {
+                "label": "local",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "residential",
+                    "unclassified",
+                    "service",
+                    "living_street",
+                    "pedestrian",
+                    "footway",
+                    "cycleway",
+                    "path",
+                    "steps",
+                    "construction",
+                    "elevator"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#0A0C0F",
+                  "strokeWidth": 5
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "line",
+              "stroke": "#0A0C0F",
+              "strokeWidth": 5
+            }
+          }
+        }
+      },
+      {
+        "id": "background_6_transportation",
+        "selector": {
+          "sourceLayers": [
+            "transportation"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 11,
+        "style": {
+          "name": "gta_road_hierarchy",
+          "geom": "line",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "major",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "motorway",
+                    "trunk",
+                    "primary",
+                    "secondary"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#EEF0ED",
+                  "strokeWidth": 3.4
+                }
+              },
+              {
+                "label": "tertiary",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "tertiary",
+                    "primary_link",
+                    "secondary_link",
+                    "trunk_link"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#B8BDBE",
+                  "strokeWidth": 2.2
+                }
+              },
+              {
+                "label": "local",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "residential",
+                    "unclassified",
+                    "service",
+                    "living_street",
+                    "pedestrian",
+                    "footway",
+                    "cycleway",
+                    "path",
+                    "steps",
+                    "construction",
+                    "elevator"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#3A3F45",
+                  "strokeWidth": 1
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "line",
+              "stroke": "#3A3F45",
+              "strokeWidth": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "background_7_transportation_name",
+        "selector": {
+          "sourceLayers": [
+            "transportation_name"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 13,
+        "style": {
+          "name": "gta_road_labels",
+          "geom": "line",
+          "symbolizer": {
+            "kind": "line",
+            "stroke": "rgba(0,0,0,0)",
+            "strokeWidth": 0
+          },
+          "label": {
+            "field": "name",
+            "fontSize": 11,
+            "fontColor": "#D8DCDD",
+            "haloColor": "#0D1012",
+            "haloWidth": 5,
+            "placement": {
+              "kind": "line",
+              "followLine": true,
+              "repeat": 300
+            }
+          }
+        }
+      },
+      {
+        "id": "background_8_water",
+        "selector": {
+          "sourceLayers": [
+            "water"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 5,
+        "style": {
+          "name": "gta_water",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#060A0D",
+            "stroke": "#1E3A4A",
+            "strokeWidth": 1
+          }
+        }
+      },
+      {
+        "id": "background_9_water_name",
+        "selector": {
+          "sourceLayers": [
+            "water_name"
+          ],
+          "geometry": "point"
+        },
+        "zIndex": 9,
+        "style": {
+          "name": "gta_water_name",
+          "geom": "point",
+          "symbolizer": {
+            "kind": "point",
+            "fill": "#AEB4B6",
+            "size": 3
+          },
+          "label": {
+            "field": "name",
+            "fontFamily": "Arial",
+            "fontSize": 11,
+            "fontColor": "#AEB4B6",
+            "haloColor": "#0D1012",
+            "haloWidth": 2,
+            "placement": {
+              "kind": "point",
+              "anchorX": 0.5,
+              "anchorY": 0.5
+            }
+          }
+        }
+      },
+      {
+        "id": "background_10_waterway",
+        "selector": {
+          "sourceLayers": [
+            "waterway"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 7,
+        "style": {
+          "name": "gta_waterway",
+          "geom": "line",
+          "symbolizer": {
+            "kind": "line",
+            "stroke": "#1E3A4A",
+            "strokeWidth": 1.6
+          }
+        }
+      }
+    ]
+  }
+}

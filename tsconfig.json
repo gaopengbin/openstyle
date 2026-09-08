@@ -2,8 +2,12 @@
   "files": [],
   "references": [
     { "path": "packages/schema" },
+    { "path": "packages/adapter" },
+    { "path": "packages/cartography" },
     { "path": "packages/compiler" },
     { "path": "packages/manual" },
-    { "path": "packages/ai" }
+    { "path": "packages/ai" },
+    { "path": "packages/openlayers" },
+    { "path": "packages/maplibre" }
   ]
 }

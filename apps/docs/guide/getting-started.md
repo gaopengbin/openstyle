@@ -4,11 +4,16 @@ openstyle is a small toolkit for producing OGC SLD styles from a bounded JSON sh
 
 ## Install
 
+Version 0.7.0 is distributed through the [GitHub prerelease](https://github.com/gaopengbin/openstyle/releases/tag/v0.7.0); its npm publication has not been completed. Download `openstyle-0.7.0-bundle.zip`, verify its checksum against the release's `SHA256SUMS`, and extract it. Use pnpm 10.32.1 from the extracted bundle directory:
+
 ```bash
-pnpm add @openstyle/schema @openstyle/compiler
+cd openstyle-0.7.0-bundle
+pnpm install
 ```
 
-Add `@openstyle/ai` if you're calling an LLM, or `@openstyle/manual` for cookbook reference material.
+The bundle includes all eight OpenStyle packages. Its `package.json` uses local tarballs and `pnpm.overrides` for internal dependencies, so it does not request unpublished OpenStyle versions from npm. Preserve both `tarballs/` and the overrides when adapting it to your own project. Third-party dependencies still require registry access or a populated pnpm cache; this is not a fully offline dependency bundle.
+
+Use `@openstyle/ai` for model prompts and request policies, `@openstyle/manual` for cookbook material, or `@openstyle/cartography` for controlled map edits and review utilities. The [release instructions](https://github.com/gaopengbin/openstyle/blob/v0.7.0/docs/releasing.md) explain checksums and individual tarballs.
 
 ## Minimum viable example
 

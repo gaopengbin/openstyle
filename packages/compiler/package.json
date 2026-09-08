@@ -1,6 +1,6 @@
 {
   "name": "@openstyle/compiler",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "description": "Deterministic OGC SLD 1.0 emitter for openstyle StyleModel.",
   "license": "MIT",
   "type": "module",
@@ -14,7 +14,10 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
@@ -33,5 +36,13 @@
     "url": "https://github.com/gaopengbin/openstyle.git",
     "directory": "packages/compiler"
   },
-  "keywords": ["sld", "geoserver", "gis", "cartography", "ogc", "xml", "openstyle"]
+  "keywords": [
+    "sld",
+    "geoserver",
+    "gis",
+    "cartography",
+    "ogc",
+    "xml",
+    "openstyle"
+  ]
 }

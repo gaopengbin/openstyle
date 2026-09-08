@@ -1,0 +1,53 @@
+{
+  "name": "@openstyle/maplibre",
+  "version": "0.7.0",
+  "description": "Deterministic MapLibre Style Specification compiler for canonical OpenStyle maps.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@openstyle/adapter": "workspace:*",
+    "@openstyle/schema": "workspace:*"
+  },
+  "peerDependencies": {
+    "maplibre-gl": ">=5 <7"
+  },
+  "devDependencies": {
+    "maplibre-gl": "6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaopengbin/openstyle.git",
+    "directory": "packages/maplibre"
+  },
+  "keywords": [
+    "maplibre",
+    "webgl",
+    "gis",
+    "cartography",
+    "openstyle"
+  ]
+}

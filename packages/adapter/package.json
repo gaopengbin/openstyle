@@ -1,0 +1,46 @@
+{
+  "name": "@openstyle/adapter",
+  "version": "0.7.0",
+  "description": "Capability manifests and explicit no-silent-degradation negotiation for OpenStyle adapters.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@openstyle/schema": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaopengbin/openstyle.git",
+    "directory": "packages/adapter"
+  },
+  "keywords": [
+    "adapter",
+    "capabilities",
+    "openlayers",
+    "openstyle"
+  ]
+}
