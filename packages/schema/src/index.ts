@@ -100,6 +100,13 @@ export const AnySymbolizerSchema = z.discriminatedUnion("kind", [
 ]);
 export type AnySymbolizer = z.infer<typeof AnySymbolizerSchema>;
 
+/**
+ * Explicit escape hatch for adapter-specific features. Extensions are always
+ * namespaced by adapter id so engine-specific knobs never look portable.
+ */
+export const OpenStyleExtensionsSchema = z.record(z.string(), z.record(z.string(), z.unknown()));
+export type OpenStyleExtensions = z.infer<typeof OpenStyleExtensionsSchema>;
+
 // ---------------------------------------------------------------------------
 // Scale range
 // ---------------------------------------------------------------------------
@@ -291,6 +298,8 @@ export const StyleModelSchema = z
     scale: ScaleRangeSchema.optional(),
     /** Optional TextSymbolizer overlay. */
     label: StyleLabelSchema.optional(),
+    /** Explicit, namespaced adapter extensions. */
+    extensions: OpenStyleExtensionsSchema.optional(),
   })
   .refine((m) => Boolean(m.classification) || Boolean(m.symbolizer), {
     message:
@@ -305,6 +314,106 @@ export const StyleModelSchema = z
     },
   );
 export type StyleModel = z.infer<typeof StyleModelSchema>;
+
+// ---------------------------------------------------------------------------
+// OpenStyle (whole-map canonical model)
+// ---------------------------------------------------------------------------
+
+export const OpenStyleSourceSelectorSchema = z
+  .object({
+    sourceRef: z.string().min(1).optional(),
+    roles: z.array(z.string().min(1)).min(1).optional(),
+    sourceLayers: z.array(z.string().min(1)).min(1).optional(),
+    geometry: StyleModelGeomSchema.optional(),
+  })
+  .refine((selector) => Boolean(selector.roles?.length || selector.sourceLayers?.length), {
+    message: "OpenStyle selector requires at least one semantic role or source layer.",
+  });
+export type OpenStyleSourceSelector = z.infer<typeof OpenStyleSourceSelectorSchema>;
+
+export const OpenStyleLayerSchema = z
+  .object({
+    id: z.string().min(1),
+    title: z.string().optional(),
+    selector: OpenStyleSourceSelectorSchema,
+    zIndex: z.number().int().optional(),
+    style: StyleModelSchema,
+    extensions: OpenStyleExtensionsSchema.optional(),
+  })
+  .superRefine((layer, context) => {
+    if (layer.selector.geometry && layer.selector.geometry !== layer.style.geom) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["selector", "geometry"],
+        message: `selector geometry ${layer.selector.geometry} does not match style geometry ${layer.style.geom}`,
+      });
+    }
+  });
+export type OpenStyleLayer = z.infer<typeof OpenStyleLayerSchema>;
+
+/** Canonical, renderer-independent whole-map style. */
+export const OpenStyleSchema = z
+  .object({
+    schemaVersion: z.literal("0.6.0"),
+    id: z.string().min(1),
+    name: z.string().min(1),
+    title: z.string().optional(),
+    description: z.string().optional(),
+    intentRef: z.string().min(1).optional(),
+    background: z.string().optional(),
+    layers: z.array(OpenStyleLayerSchema).min(1),
+    metadata: z
+      .object({
+        authors: z.array(z.string().min(1)).optional(),
+        tags: z.array(z.string().min(1)).optional(),
+        createdAt: z.string().datetime().optional(),
+        updatedAt: z.string().datetime().optional(),
+      })
+      .optional(),
+    extensions: OpenStyleExtensionsSchema.optional(),
+  })
+  .superRefine((style, context) => {
+    const seen = new Set<string>();
+    style.layers.forEach((layer, index) => {
+      if (seen.has(layer.id)) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["layers", index, "id"],
+          message: `duplicate OpenStyle layer id: ${layer.id}`,
+        });
+      }
+      seen.add(layer.id);
+    });
+  });
+export type OpenStyle = z.infer<typeof OpenStyleSchema>;
+
+export interface OpenStyleValidation {
+  ok: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+export function validateOpenStyle(style: unknown): OpenStyleValidation {
+  const parsed = OpenStyleSchema.safeParse(style);
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  if (!parsed.success) {
+    for (const issue of parsed.error.issues) {
+      const path = issue.path.length > 0 ? issue.path.join(".") : "<root>";
+      errors.push(`${path}: ${issue.message}`);
+    }
+    return { ok: false, errors, warnings };
+  }
+
+  for (const layer of parsed.data.layers) {
+    const validation = validateStyleModel(layer.style);
+    warnings.push(...validation.warnings.map((warning) => `${layer.id}: ${warning}`));
+    if (!layer.selector.sourceLayers?.length) {
+      warnings.push(`${layer.id}: semantic roles require a source binding before rendering`);
+    }
+  }
+  return { ok: true, errors, warnings };
+}
 
 // ---------------------------------------------------------------------------
 // Validation result

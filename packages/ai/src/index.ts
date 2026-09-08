@@ -16,6 +16,22 @@
  */
 import type { StyleModel } from "@openstyle/schema";
 
+export {
+  rewriteChatRequestBody,
+  readPositiveInteger,
+  readThinkingMode,
+  type ChatThinkingMode,
+  type ChatRequestPolicy,
+  type RewrittenChatRequest,
+} from "./chat-request-policy.js";
+export {
+  summarizeModelStep,
+  nextOutputBudgetState,
+  type ModelStepInput,
+  type ModelStepSummary,
+  type OutputBudgetState,
+} from "./model-step.js";
+
 // ---------------------------------------------------------------------------
 // Layer context (minimal, provider-agnostic)
 // ---------------------------------------------------------------------------

@@ -17,7 +17,8 @@
     "docs:build": "pnpm --filter @openstyle/docs run build",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "release:pack": "node scripts/package-release.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.10",

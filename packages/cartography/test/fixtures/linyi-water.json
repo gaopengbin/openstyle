@@ -1,0 +1,1757 @@
+{
+  "provenance": {
+    "dataset": "OpenStreetMap",
+    "license": "ODbL-1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "observedAt": "2026-09-08T03:56:21.399Z",
+    "note": "Real accepted GeoStyle edit; patch reconstructed from recorded changes and before/after style. No feature payload, account, conversation or credential included."
+  },
+  "input": {
+    "style": {
+      "schemaVersion": "0.6.0",
+      "id": "linyi-water-before",
+      "name": "background_style_bg-5a2aafcc-d7a0-4245-8020-ab2ce603524a",
+      "background": "#0D1012",
+      "layers": [
+        {
+          "id": "background_0_building",
+          "selector": {
+            "sourceLayers": [
+              "building"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 13,
+          "style": {
+            "name": "Buildings",
+            "geom": "polygon",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Commercial buildings",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "commercial",
+                      "office",
+                      "retail",
+                      "hotel"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#252b2d",
+                    "fillOpacity": 0.95,
+                    "stroke": "#4a5557",
+                    "strokeWidth": 0.45
+                  }
+                },
+                {
+                  "label": "Civic buildings",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "hospital",
+                      "parking"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#2b3031",
+                    "fillOpacity": 0.95,
+                    "stroke": "#586163",
+                    "strokeWidth": 0.45
+                  }
+                },
+                {
+                  "label": "Residential buildings",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "apartments",
+                      "house",
+                      "residential"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#202628",
+                    "fillOpacity": 0.94,
+                    "stroke": "#3e494b",
+                    "strokeWidth": 0.4
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "polygon",
+                "fill": "#22282a",
+                "fillOpacity": 0.92,
+                "stroke": "#414b4d",
+                "strokeWidth": 0.4
+              }
+            }
+          }
+        },
+        {
+          "id": "background_1_landcover",
+          "selector": {
+            "sourceLayers": [
+              "landcover"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 3,
+          "style": {
+            "name": "Landcover",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#182024",
+              "fillOpacity": 0.9,
+              "stroke": "#253137",
+              "strokeWidth": 0.35
+            }
+          }
+        },
+        {
+          "id": "background_2_landuse",
+          "selector": {
+            "sourceLayers": [
+              "landuse"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 5,
+          "style": {
+            "name": "Land use",
+            "geom": "polygon",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Green areas",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "forest",
+                      "grass",
+                      "orchard"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#17241f",
+                    "fillOpacity": 0.9,
+                    "stroke": "#263b32",
+                    "strokeWidth": 0.35
+                  }
+                },
+                {
+                  "label": "Commercial and retail",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "commercial",
+                      "retail"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#1b2022",
+                    "fillOpacity": 0.9,
+                    "stroke": "#30383a",
+                    "strokeWidth": 0.35
+                  }
+                },
+                {
+                  "label": "Industrial and garages",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "industrial",
+                      "garages"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#202326",
+                    "fillOpacity": 0.9,
+                    "stroke": "#373c3d",
+                    "strokeWidth": 0.35
+                  }
+                },
+                {
+                  "label": "Development areas",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "construction",
+                      "brownfield"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "polygon",
+                    "fill": "#1d2021",
+                    "fillOpacity": 0.9,
+                    "stroke": "#333839",
+                    "strokeWidth": 0.35
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "polygon",
+                "fill": "#181c1e",
+                "fillOpacity": 0.88,
+                "stroke": "#293033",
+                "strokeWidth": 0.3
+              }
+            }
+          }
+        },
+        {
+          "id": "background_3_park",
+          "selector": {
+            "sourceLayers": [
+              "park"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 7,
+          "style": {
+            "name": "Parks",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#1c3028",
+              "fillOpacity": 0.95,
+              "stroke": "#315344",
+              "strokeWidth": 0.55
+            },
+            "label": {
+              "field": "name",
+              "fontFamily": "sans-serif",
+              "fontSize": 9,
+              "fontColor": "#7eaaa0",
+              "haloColor": "#0D1012",
+              "haloWidth": 2,
+              "placement": {
+                "kind": "point"
+              }
+            }
+          }
+        },
+        {
+          "id": "background_4_place",
+          "selector": {
+            "sourceLayers": [
+              "place"
+            ],
+            "geometry": "point"
+          },
+          "zIndex": 19,
+          "style": {
+            "name": "Places",
+            "geom": "point",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Suburbs",
+                  "filter": {
+                    "op": "eq",
+                    "value": "suburb"
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "circle",
+                    "fill": "#55D6D2",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1.2,
+                    "size": 5
+                  }
+                },
+                {
+                  "label": "Neighbourhoods and villages",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "neighbourhood",
+                      "village"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "circle",
+                    "fill": "#8a9698",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1,
+                    "size": 3.5
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "point",
+                "shape": "circle",
+                "fill": "#8a9698",
+                "stroke": "#0D1012",
+                "strokeWidth": 1,
+                "size": 3.5
+              }
+            },
+            "label": {
+              "field": "name",
+              "fontFamily": "sans-serif",
+              "fontSize": 10.5,
+              "fontColor": "#d0d5d5",
+              "haloColor": "#0D1012",
+              "haloWidth": 2.5,
+              "placement": {
+                "kind": "point",
+                "offsetY": 8
+              }
+            }
+          }
+        },
+        {
+          "id": "background_5_poi",
+          "selector": {
+            "sourceLayers": [
+              "poi"
+            ],
+            "geometry": "point"
+          },
+          "zIndex": 21,
+          "style": {
+            "name": "Points of interest",
+            "geom": "point",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Finance and shopping",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "bank",
+                      "mall",
+                      "supermarket",
+                      "electronics",
+                      "post_office"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "square",
+                    "fill": "#55D6D2",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1,
+                    "size": 6.5
+                  }
+                },
+                {
+                  "label": "Food and leisure",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "cafe",
+                      "fast_food",
+                      "cinema",
+                      "massage"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "circle",
+                    "fill": "#e6a84d",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1,
+                    "size": 6
+                  }
+                },
+                {
+                  "label": "Services and accommodation",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "hotel",
+                      "school",
+                      "taxi",
+                      "parking",
+                      "parking_entrance",
+                      "toilets",
+                      "apartment"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "diamond",
+                    "fill": "#81989b",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1,
+                    "size": 6
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "point",
+                "shape": "circle",
+                "fill": "#788487",
+                "stroke": "#0D1012",
+                "strokeWidth": 1,
+                "size": 4.5
+              }
+            }
+          }
+        },
+        {
+          "id": "background_6_transportation_underlay",
+          "selector": {
+            "sourceLayers": [
+              "transportation"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 14,
+          "style": {
+            "name": "Road network",
+            "geom": "line",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Primary roads",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "primary",
+                      "primary_link"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#060A0D",
+                    "strokeWidth": 8.8,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Secondary roads",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "secondary",
+                      "secondary_link",
+                      "tertiary"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#060A0D",
+                    "strokeWidth": 7.1,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Local streets",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "residential",
+                      "living_street",
+                      "unclassified",
+                      "service"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#060A0D",
+                    "strokeWidth": 5.35,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Paths and cycleways",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "cycleway",
+                      "footway",
+                      "path",
+                      "pedestrian",
+                      "steps",
+                      "track"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#060A0D",
+                    "strokeWidth": 4.8,
+                    "dasharray": "2 2",
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "line",
+                "stroke": "#060A0D",
+                "strokeWidth": 5,
+                "linecap": "round",
+                "linejoin": "round"
+              }
+            }
+          }
+        },
+        {
+          "id": "background_6_transportation",
+          "selector": {
+            "sourceLayers": [
+              "transportation"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 15,
+          "style": {
+            "name": "Road network",
+            "geom": "line",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Primary roads",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "primary",
+                      "primary_link"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#EEF0ED",
+                    "strokeWidth": 4.8,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Secondary roads",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "secondary",
+                      "secondary_link",
+                      "tertiary"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#B8BDBE",
+                    "strokeWidth": 3.1,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Local streets",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "residential",
+                      "living_street",
+                      "unclassified",
+                      "service"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#667074",
+                    "strokeWidth": 1.35,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Paths and cycleways",
+                  "filter": {
+                    "op": "in",
+                    "value": [
+                      "cycleway",
+                      "footway",
+                      "path",
+                      "pedestrian",
+                      "steps",
+                      "track"
+                    ]
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#3e4a4d",
+                    "strokeWidth": 0.8,
+                    "dasharray": "2 2",
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "line",
+                "stroke": "#566164",
+                "strokeWidth": 1,
+                "linecap": "round",
+                "linejoin": "round"
+              }
+            }
+          }
+        },
+        {
+          "id": "background_7_transportation_name",
+          "selector": {
+            "sourceLayers": [
+              "transportation_name"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 17,
+          "style": {
+            "name": "Street labels",
+            "geom": "line",
+            "symbolizer": {
+              "kind": "line",
+              "stroke": "#000000",
+              "strokeWidth": 0,
+              "strokeOpacity": 0
+            },
+            "label": {
+              "field": "name",
+              "fontFamily": "sans-serif",
+              "fontSize": 9.5,
+              "fontColor": "#AEB4B6",
+              "haloColor": "#0D1012",
+              "haloWidth": 2.2,
+              "maxScale": 20000,
+              "placement": {
+                "kind": "line",
+                "followLine": true,
+                "repeat": 360,
+                "maxAngleDelta": 45,
+                "spaceAround": 40
+              }
+            }
+          }
+        },
+        {
+          "id": "background_8_water",
+          "selector": {
+            "sourceLayers": [
+              "water"
+            ],
+            "geometry": "polygon"
+          },
+          "zIndex": 9,
+          "style": {
+            "name": "Water",
+            "geom": "polygon",
+            "symbolizer": {
+              "kind": "polygon",
+              "fill": "#060A0D",
+              "fillOpacity": 0.98,
+              "stroke": "#1d3b42",
+              "strokeWidth": 0.7
+            }
+          }
+        },
+        {
+          "id": "background_9_water_name",
+          "selector": {
+            "sourceLayers": [
+              "water_name"
+            ],
+            "geometry": "point"
+          },
+          "zIndex": 23,
+          "style": {
+            "name": "Water labels",
+            "geom": "point",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Rivers",
+                  "filter": {
+                    "op": "eq",
+                    "value": "river"
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "circle",
+                    "fill": "#55D6D2",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1,
+                    "size": 3.5
+                  }
+                },
+                {
+                  "label": "Water bodies",
+                  "filter": {
+                    "op": "eq",
+                    "value": "water"
+                  },
+                  "symbolizer": {
+                    "kind": "point",
+                    "shape": "circle",
+                    "fill": "#4aa4aa",
+                    "stroke": "#0D1012",
+                    "strokeWidth": 1,
+                    "size": 3.5
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "point",
+                "shape": "circle",
+                "fill": "#4aa4aa",
+                "stroke": "#0D1012",
+                "strokeWidth": 1,
+                "size": 3.5
+              }
+            },
+            "label": {
+              "field": "name",
+              "fontFamily": "sans-serif",
+              "fontSize": 9,
+              "fontColor": "#65b9b7",
+              "haloColor": "#0D1012",
+              "haloWidth": 2,
+              "placement": {
+                "kind": "point",
+                "offsetY": 7
+              }
+            }
+          }
+        },
+        {
+          "id": "background_10_waterway",
+          "selector": {
+            "sourceLayers": [
+              "waterway"
+            ],
+            "geometry": "line"
+          },
+          "zIndex": 11,
+          "style": {
+            "name": "Waterways",
+            "geom": "line",
+            "classification": {
+              "field": "class",
+              "classes": [
+                {
+                  "label": "Rivers",
+                  "filter": {
+                    "op": "eq",
+                    "value": "river"
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#1d5962",
+                    "strokeWidth": 2.2,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                },
+                {
+                  "label": "Streams",
+                  "filter": {
+                    "op": "eq",
+                    "value": "stream"
+                  },
+                  "symbolizer": {
+                    "kind": "line",
+                    "stroke": "#17434c",
+                    "strokeWidth": 1.1,
+                    "linecap": "round",
+                    "linejoin": "round"
+                  }
+                }
+              ],
+              "fallback": {
+                "kind": "line",
+                "stroke": "#194852",
+                "strokeWidth": 0.9,
+                "linecap": "round"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "profile": {
+      "sourceId": "fixture://linyi-water",
+      "layers": [
+        {
+          "id": "building",
+          "geometry": "polygon",
+          "fields": [
+            "amenity",
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "render_height",
+            "shop",
+            "tourism"
+          ]
+        },
+        {
+          "id": "landcover",
+          "geometry": "polygon",
+          "fields": [
+            "class",
+            "osm_id",
+            "osm_type",
+            "rank"
+          ]
+        },
+        {
+          "id": "landuse",
+          "geometry": "polygon",
+          "fields": [
+            "amenity",
+            "class",
+            "name",
+            "operator",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "shop",
+            "tourism"
+          ]
+        },
+        {
+          "id": "park",
+          "geometry": "polygon",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "tourism"
+          ]
+        },
+        {
+          "id": "place",
+          "geometry": "point",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank"
+          ]
+        },
+        {
+          "id": "poi",
+          "geometry": "point",
+          "fields": [
+            "amenity",
+            "class",
+            "name",
+            "operator",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "shop",
+            "tourism"
+          ]
+        },
+        {
+          "id": "transportation",
+          "geometry": "line",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "surface"
+          ]
+        },
+        {
+          "id": "transportation_name",
+          "geometry": "line",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank",
+            "surface"
+          ]
+        },
+        {
+          "id": "water",
+          "geometry": "polygon",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank"
+          ]
+        },
+        {
+          "id": "water_name",
+          "geometry": "point",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank"
+          ]
+        },
+        {
+          "id": "waterway",
+          "geometry": "line",
+          "fields": [
+            "class",
+            "name",
+            "osm_id",
+            "osm_type",
+            "rank"
+          ]
+        }
+      ]
+    },
+    "patch": {
+      "baseStyleId": "linyi-water-before",
+      "sourceId": "fixture://linyi-water",
+      "operations": [
+        {
+          "op": "replace",
+          "layerId": "background_8_water",
+          "sourceLayer": "water",
+          "path": "/symbolizer/fill",
+          "value": "#246E87"
+        },
+        {
+          "op": "replace",
+          "layerId": "background_8_water",
+          "sourceLayer": "water",
+          "path": "/symbolizer/stroke",
+          "value": "#3a8aa3"
+        },
+        {
+          "op": "replace",
+          "layerId": "background_10_waterway",
+          "sourceLayer": "waterway",
+          "path": "/classification/classes/0/symbolizer/stroke",
+          "value": "#246E87"
+        },
+        {
+          "op": "replace",
+          "layerId": "background_10_waterway",
+          "sourceLayer": "waterway",
+          "path": "/classification/classes/1/symbolizer/stroke",
+          "value": "#246E87"
+        },
+        {
+          "op": "replace",
+          "layerId": "background_10_waterway",
+          "sourceLayer": "waterway",
+          "path": "/classification/fallback/stroke",
+          "value": "#246E87"
+        }
+      ]
+    },
+    "resultId": "linyi-water-after"
+  },
+  "expected": {
+    "schemaVersion": "0.6.0",
+    "id": "linyi-water-after",
+    "name": "background_style_bg-5a2aafcc-d7a0-4245-8020-ab2ce603524a",
+    "background": "#0D1012",
+    "layers": [
+      {
+        "id": "background_0_building",
+        "selector": {
+          "sourceLayers": [
+            "building"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 13,
+        "style": {
+          "name": "Buildings",
+          "geom": "polygon",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Commercial buildings",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "commercial",
+                    "office",
+                    "retail",
+                    "hotel"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#252b2d",
+                  "fillOpacity": 0.95,
+                  "stroke": "#4a5557",
+                  "strokeWidth": 0.45
+                }
+              },
+              {
+                "label": "Civic buildings",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "hospital",
+                    "parking"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#2b3031",
+                  "fillOpacity": 0.95,
+                  "stroke": "#586163",
+                  "strokeWidth": 0.45
+                }
+              },
+              {
+                "label": "Residential buildings",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "apartments",
+                    "house",
+                    "residential"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#202628",
+                  "fillOpacity": 0.94,
+                  "stroke": "#3e494b",
+                  "strokeWidth": 0.4
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "polygon",
+              "fill": "#22282a",
+              "fillOpacity": 0.92,
+              "stroke": "#414b4d",
+              "strokeWidth": 0.4
+            }
+          }
+        }
+      },
+      {
+        "id": "background_1_landcover",
+        "selector": {
+          "sourceLayers": [
+            "landcover"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 3,
+        "style": {
+          "name": "Landcover",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#182024",
+            "fillOpacity": 0.9,
+            "stroke": "#253137",
+            "strokeWidth": 0.35
+          }
+        }
+      },
+      {
+        "id": "background_2_landuse",
+        "selector": {
+          "sourceLayers": [
+            "landuse"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 5,
+        "style": {
+          "name": "Land use",
+          "geom": "polygon",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Green areas",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "forest",
+                    "grass",
+                    "orchard"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#17241f",
+                  "fillOpacity": 0.9,
+                  "stroke": "#263b32",
+                  "strokeWidth": 0.35
+                }
+              },
+              {
+                "label": "Commercial and retail",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "commercial",
+                    "retail"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#1b2022",
+                  "fillOpacity": 0.9,
+                  "stroke": "#30383a",
+                  "strokeWidth": 0.35
+                }
+              },
+              {
+                "label": "Industrial and garages",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "industrial",
+                    "garages"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#202326",
+                  "fillOpacity": 0.9,
+                  "stroke": "#373c3d",
+                  "strokeWidth": 0.35
+                }
+              },
+              {
+                "label": "Development areas",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "construction",
+                    "brownfield"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "polygon",
+                  "fill": "#1d2021",
+                  "fillOpacity": 0.9,
+                  "stroke": "#333839",
+                  "strokeWidth": 0.35
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "polygon",
+              "fill": "#181c1e",
+              "fillOpacity": 0.88,
+              "stroke": "#293033",
+              "strokeWidth": 0.3
+            }
+          }
+        }
+      },
+      {
+        "id": "background_3_park",
+        "selector": {
+          "sourceLayers": [
+            "park"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 7,
+        "style": {
+          "name": "Parks",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#1c3028",
+            "fillOpacity": 0.95,
+            "stroke": "#315344",
+            "strokeWidth": 0.55
+          },
+          "label": {
+            "field": "name",
+            "fontFamily": "sans-serif",
+            "fontSize": 9,
+            "fontColor": "#7eaaa0",
+            "haloColor": "#0D1012",
+            "haloWidth": 2,
+            "placement": {
+              "kind": "point"
+            }
+          }
+        }
+      },
+      {
+        "id": "background_4_place",
+        "selector": {
+          "sourceLayers": [
+            "place"
+          ],
+          "geometry": "point"
+        },
+        "zIndex": 19,
+        "style": {
+          "name": "Places",
+          "geom": "point",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Suburbs",
+                "filter": {
+                  "op": "eq",
+                  "value": "suburb"
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "circle",
+                  "fill": "#55D6D2",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1.2,
+                  "size": 5
+                }
+              },
+              {
+                "label": "Neighbourhoods and villages",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "neighbourhood",
+                    "village"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "circle",
+                  "fill": "#8a9698",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1,
+                  "size": 3.5
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "point",
+              "shape": "circle",
+              "fill": "#8a9698",
+              "stroke": "#0D1012",
+              "strokeWidth": 1,
+              "size": 3.5
+            }
+          },
+          "label": {
+            "field": "name",
+            "fontFamily": "sans-serif",
+            "fontSize": 10.5,
+            "fontColor": "#d0d5d5",
+            "haloColor": "#0D1012",
+            "haloWidth": 2.5,
+            "placement": {
+              "kind": "point",
+              "offsetY": 8
+            }
+          }
+        }
+      },
+      {
+        "id": "background_5_poi",
+        "selector": {
+          "sourceLayers": [
+            "poi"
+          ],
+          "geometry": "point"
+        },
+        "zIndex": 21,
+        "style": {
+          "name": "Points of interest",
+          "geom": "point",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Finance and shopping",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "bank",
+                    "mall",
+                    "supermarket",
+                    "electronics",
+                    "post_office"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "square",
+                  "fill": "#55D6D2",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1,
+                  "size": 6.5
+                }
+              },
+              {
+                "label": "Food and leisure",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "cafe",
+                    "fast_food",
+                    "cinema",
+                    "massage"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "circle",
+                  "fill": "#e6a84d",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1,
+                  "size": 6
+                }
+              },
+              {
+                "label": "Services and accommodation",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "hotel",
+                    "school",
+                    "taxi",
+                    "parking",
+                    "parking_entrance",
+                    "toilets",
+                    "apartment"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "diamond",
+                  "fill": "#81989b",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1,
+                  "size": 6
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "point",
+              "shape": "circle",
+              "fill": "#788487",
+              "stroke": "#0D1012",
+              "strokeWidth": 1,
+              "size": 4.5
+            }
+          }
+        }
+      },
+      {
+        "id": "background_6_transportation_underlay",
+        "selector": {
+          "sourceLayers": [
+            "transportation"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 14,
+        "style": {
+          "name": "Road network",
+          "geom": "line",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Primary roads",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "primary",
+                    "primary_link"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#060A0D",
+                  "strokeWidth": 8.8,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Secondary roads",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "secondary",
+                    "secondary_link",
+                    "tertiary"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#060A0D",
+                  "strokeWidth": 7.1,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Local streets",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "residential",
+                    "living_street",
+                    "unclassified",
+                    "service"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#060A0D",
+                  "strokeWidth": 5.35,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Paths and cycleways",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "cycleway",
+                    "footway",
+                    "path",
+                    "pedestrian",
+                    "steps",
+                    "track"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#060A0D",
+                  "strokeWidth": 4.8,
+                  "dasharray": "2 2",
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "line",
+              "stroke": "#060A0D",
+              "strokeWidth": 5,
+              "linecap": "round",
+              "linejoin": "round"
+            }
+          }
+        }
+      },
+      {
+        "id": "background_6_transportation",
+        "selector": {
+          "sourceLayers": [
+            "transportation"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 15,
+        "style": {
+          "name": "Road network",
+          "geom": "line",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Primary roads",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "primary",
+                    "primary_link"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#EEF0ED",
+                  "strokeWidth": 4.8,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Secondary roads",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "secondary",
+                    "secondary_link",
+                    "tertiary"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#B8BDBE",
+                  "strokeWidth": 3.1,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Local streets",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "residential",
+                    "living_street",
+                    "unclassified",
+                    "service"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#667074",
+                  "strokeWidth": 1.35,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Paths and cycleways",
+                "filter": {
+                  "op": "in",
+                  "value": [
+                    "cycleway",
+                    "footway",
+                    "path",
+                    "pedestrian",
+                    "steps",
+                    "track"
+                  ]
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#3e4a4d",
+                  "strokeWidth": 0.8,
+                  "dasharray": "2 2",
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "line",
+              "stroke": "#566164",
+              "strokeWidth": 1,
+              "linecap": "round",
+              "linejoin": "round"
+            }
+          }
+        }
+      },
+      {
+        "id": "background_7_transportation_name",
+        "selector": {
+          "sourceLayers": [
+            "transportation_name"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 17,
+        "style": {
+          "name": "Street labels",
+          "geom": "line",
+          "symbolizer": {
+            "kind": "line",
+            "stroke": "#000000",
+            "strokeWidth": 0,
+            "strokeOpacity": 0
+          },
+          "label": {
+            "field": "name",
+            "fontFamily": "sans-serif",
+            "fontSize": 9.5,
+            "fontColor": "#AEB4B6",
+            "haloColor": "#0D1012",
+            "haloWidth": 2.2,
+            "maxScale": 20000,
+            "placement": {
+              "kind": "line",
+              "followLine": true,
+              "repeat": 360,
+              "maxAngleDelta": 45,
+              "spaceAround": 40
+            }
+          }
+        }
+      },
+      {
+        "id": "background_8_water",
+        "selector": {
+          "sourceLayers": [
+            "water"
+          ],
+          "geometry": "polygon"
+        },
+        "zIndex": 9,
+        "style": {
+          "name": "Water",
+          "geom": "polygon",
+          "symbolizer": {
+            "kind": "polygon",
+            "fill": "#246E87",
+            "fillOpacity": 0.98,
+            "stroke": "#3a8aa3",
+            "strokeWidth": 0.7
+          }
+        }
+      },
+      {
+        "id": "background_9_water_name",
+        "selector": {
+          "sourceLayers": [
+            "water_name"
+          ],
+          "geometry": "point"
+        },
+        "zIndex": 23,
+        "style": {
+          "name": "Water labels",
+          "geom": "point",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Rivers",
+                "filter": {
+                  "op": "eq",
+                  "value": "river"
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "circle",
+                  "fill": "#55D6D2",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1,
+                  "size": 3.5
+                }
+              },
+              {
+                "label": "Water bodies",
+                "filter": {
+                  "op": "eq",
+                  "value": "water"
+                },
+                "symbolizer": {
+                  "kind": "point",
+                  "shape": "circle",
+                  "fill": "#4aa4aa",
+                  "stroke": "#0D1012",
+                  "strokeWidth": 1,
+                  "size": 3.5
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "point",
+              "shape": "circle",
+              "fill": "#4aa4aa",
+              "stroke": "#0D1012",
+              "strokeWidth": 1,
+              "size": 3.5
+            }
+          },
+          "label": {
+            "field": "name",
+            "fontFamily": "sans-serif",
+            "fontSize": 9,
+            "fontColor": "#65b9b7",
+            "haloColor": "#0D1012",
+            "haloWidth": 2,
+            "placement": {
+              "kind": "point",
+              "offsetY": 7
+            }
+          }
+        }
+      },
+      {
+        "id": "background_10_waterway",
+        "selector": {
+          "sourceLayers": [
+            "waterway"
+          ],
+          "geometry": "line"
+        },
+        "zIndex": 11,
+        "style": {
+          "name": "Waterways",
+          "geom": "line",
+          "classification": {
+            "field": "class",
+            "classes": [
+              {
+                "label": "Rivers",
+                "filter": {
+                  "op": "eq",
+                  "value": "river"
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#246E87",
+                  "strokeWidth": 2.2,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              },
+              {
+                "label": "Streams",
+                "filter": {
+                  "op": "eq",
+                  "value": "stream"
+                },
+                "symbolizer": {
+                  "kind": "line",
+                  "stroke": "#246E87",
+                  "strokeWidth": 1.1,
+                  "linecap": "round",
+                  "linejoin": "round"
+                }
+              }
+            ],
+            "fallback": {
+              "kind": "line",
+              "stroke": "#246E87",
+              "strokeWidth": 0.9,
+              "linecap": "round"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # openstyle
 
-> An open, AI-friendly toolkit for map styling — schema, compiler, and prompt manual for SLD (and, eventually, more).
+> An open, AI-friendly toolkit for map styling — a shared map grammar, renderer adapters, controlled edits and evidence-based review utilities.
 
 [中文文档](./README.zh-CN.md)
 
@@ -8,11 +8,12 @@
 
 Map styling should be **grammar-checked before it leaves the model**. openstyle gives AI agents a bounded shape to fill in, a deterministic compiler that turns that shape into standards-compliant SLD, and a curated prompt manual so the model doesn't have to invent OGC XML from memory.
 
-Three layers, one repo:
+The toolkit separates map representation, compilation and creation policies:
 
 1. **Schema** (`@openstyle/schema`) — the JSON shape (with zod runtime validation) that an LLM must produce. Small, opinionated, complete for real cartography needs (scale layering, classification, labels, symbolizers).
 2. **Compiler** (`@openstyle/compiler`) — turns a validated `StyleModel` into strict [OGC SLD 1.0](https://docs.ogc.org/is/02-070/02-070.pdf) XML. No LLM ever touches `<sld:...>`.
 3. **Manual + AI helpers** (`@openstyle/manual`, `@openstyle/ai`) — a distilled version of the [GeoServer SLD Cookbook](https://docs.geoserver.org/latest/en/user/styling/sld/cookbook/), plus system-prompt builders and field-reference validators, so any AI agent can pick up the format quickly.
+4. **Cartography** (`@openstyle/cartography`) — canonical map patches, classification-aware road casing, compact review context, pixel diagnostics and bounded repair decisions. Applications bring their own renderer capture, model transport and persistence.
 
 ## Status
 
@@ -26,15 +27,18 @@ Extracted from [GeoServer-AI-Style-Studio](https://github.com/gaopengbin/GeoServ
 | --- | --- |
 | [`@openstyle/schema`](./packages/schema) | `StyleModel` TypeScript type + zod schema + validators |
 | [`@openstyle/compiler`](./packages/compiler) | `compileToSld` / `formatSld` — deterministic SLD 1.0 emitter |
+| [`@openstyle/cartography`](./packages/cartography) | Atomic map edits, casing, render diagnostics and review contracts |
+| [`@openstyle/adapter`](./packages/adapter) | Renderer capability declarations and negotiation |
 | [`@openstyle/openlayers`](./packages/openlayers) | `compileToOpenLayers` — deterministic OpenLayers `StyleFunction` adapter |
+| [`@openstyle/maplibre`](./packages/maplibre) | `compileOpenStyleToMapLibre` — deterministic MapLibre Style Specification adapter with explicit capability negotiation |
 | [`@openstyle/manual`](./packages/manual) | Cookbook-distilled prompt manual (scale ladders, palettes, few-shot) |
-| [`@openstyle/ai`](./packages/ai) | System-prompt builder + field-reference validators + SLD diff |
+| [`@openstyle/ai`](./packages/ai) | Prompts, validators, request policies and output-budget decisions |
+
+The reusable GeoStyle creation functions are implemented in this repository and consumed by GeoStyle. Version 0.7.0 is distributed as a GitHub prerelease; npm publication is separate and has not been completed. See the [extraction record](./docs/geostyle-extraction-2026-09-08.md), [offline workflow example](./examples/cartography-workflow/README.md), and [release instructions](./docs/releasing.md).
 
 ## Quick start
 
-```bash
-pnpm add @openstyle/schema @openstyle/compiler
-```
+Download `openstyle-0.7.0-bundle.zip` from the [v0.7.0 release](https://github.com/gaopengbin/openstyle/releases/tag/v0.7.0), extract it, and run `pnpm install` inside its directory. The bundle pins all eight OpenStyle packages to included tarballs; external dependencies still need registry access or a populated pnpm cache. Then import the packages normally:
 
 ```ts
 import { StyleModelSchema } from "@openstyle/schema";
@@ -63,6 +67,9 @@ openstyle/
 ├── packages/
 │   ├── schema/     # zod schema + types
 │   ├── compiler/   # SLD 1.0 XML emitter
+│   ├── cartography/ # controlled edits, evidence and workflow contracts
+│   ├── adapter/    # renderer capability negotiation
+│   ├── maplibre/   # MapLibre whole-map adapter
 │   ├── manual/     # AI prompt manual & few-shot library
 │   ├── ai/         # system-prompt builder + validators
 │   └── openlayers/ # OpenLayers StyleFunction adapter

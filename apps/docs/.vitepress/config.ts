@@ -26,6 +26,7 @@ export default defineConfig({
             { text: "Overview", link: "/packages/" },
             { text: "@openstyle/schema", link: "/packages/schema" },
             { text: "@openstyle/compiler", link: "/packages/compiler" },
+            { text: "@openstyle/cartography", link: "/packages/cartography" },
             { text: "@openstyle/ai", link: "/packages/ai" },
             { text: "@openstyle/manual", link: "/packages/manual" },
           ],

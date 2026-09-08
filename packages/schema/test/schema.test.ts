@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  OpenStyleSchema,
   StyleModelSchema,
+  validateOpenStyle,
   validateStyleModel,
+  type OpenStyle,
   type StyleModel,
 } from "../src/index.js";
 
@@ -127,6 +130,34 @@ describe("StyleModelSchema", () => {
       },
     };
     expect(() => StyleModelSchema.parse(model)).not.toThrow();
+  });
+});
+
+describe("OpenStyleSchema", () => {
+  const style: OpenStyle = {
+    schemaVersion: "0.6.0",
+    id: "city-night",
+    name: "City night",
+    background: "#07111f",
+    layers: [{
+      id: "roads",
+      selector: { roles: ["transportation"], sourceLayers: ["transportation"], geometry: "line" },
+      zIndex: 5,
+      style: { name: "roads", geom: "line", symbolizer: { kind: "line", stroke: "#ffd166", strokeWidth: 3 } },
+    }],
+  };
+
+  it("accepts a canonical whole-map style", () => {
+    expect(OpenStyleSchema.parse(style).layers[0]?.style.name).toBe("roads");
+    expect(validateOpenStyle(style).ok).toBe(true);
+  });
+
+  it("rejects duplicate layer ids and mismatched selector geometry", () => {
+    expect(OpenStyleSchema.safeParse({ ...style, layers: [...style.layers, style.layers[0]] }).success).toBe(false);
+    expect(OpenStyleSchema.safeParse({
+      ...style,
+      layers: [{ ...style.layers[0], selector: { roles: ["transportation"], geometry: "polygon" } }],
+    }).success).toBe(false);
   });
 });
 
