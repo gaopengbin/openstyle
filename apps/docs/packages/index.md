@@ -1,6 +1,6 @@
 # Packages
 
-openstyle is a monorepo. Each package can be installed on its own; they compose cleanly.
+openstyle is a monorepo of eight composable packages. For 0.7.0, use the [GitHub bundle installation guide](../guide/getting-started): npm publication is not complete, and individual tarballs still need their internal OpenStyle dependencies resolved. The bundle includes those dependencies and the required pnpm overrides.
 
 | Package | Purpose |
 | --- | --- |

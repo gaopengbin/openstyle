@@ -83,13 +83,13 @@ openstyle/
 ## 开发
 
 ```bash
-pnpm install
-pnpm typecheck
+pnpm install --frozen-lockfile
 pnpm build
+pnpm typecheck
 pnpm test
 ```
 
-需要 Node ≥ 18.18、pnpm ≥ 9。
+需要 Node ≥ 18.18，仓库固定使用 pnpm 10.32.1；发布工作流使用 Node 22。先构建再检查类型，下游包才能解析生成的类型声明。
 
 ## 参考
 

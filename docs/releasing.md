@@ -19,6 +19,8 @@ pnpm release:pack --version 0.7.0
 
 Run `release:pack` through pnpm so `npm_execpath` points to the same pnpm CLI on Windows, macOS and Linux. The optional `--version` asserts the expected release; without it the script uses the shared package version. A mismatch or missing build fails before packing. It does not edit source manifests, publish packages, create tags or call a registry API.
 
+Use `pnpm release:pack` for this GitHub distribution. The separate `pnpm release` command runs Changesets publication to npm; it is not an alias for the packaging workflow and is not part of this release's delivery.
+
 ## Distribution contents
 
 The script writes `artifacts/releases/v0.7.0/` containing:

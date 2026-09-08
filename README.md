@@ -83,13 +83,13 @@ openstyle/
 ## Development
 
 ```bash
-pnpm install
-pnpm typecheck
+pnpm install --frozen-lockfile
 pnpm build
+pnpm typecheck
 pnpm test
 ```
 
-Requires Node ≥ 18.18 and pnpm ≥ 9.
+Requires Node ≥ 18.18; the repository pins pnpm 10.32.1. The release workflow uses Node 22. Build first so downstream packages can resolve the generated type declarations.
 
 ## References
 

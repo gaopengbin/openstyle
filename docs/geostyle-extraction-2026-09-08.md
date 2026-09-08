@@ -1,6 +1,8 @@
 # GeoStyle 创作能力沉淀到 OpenStyle
 
-日期：2026-09-08。状态：代码已进入 OpenStyle 本地工作区，GeoStyle 已改为消费共享实现；未提交、发布 npm 或部署线上。
+日期：2026-09-08。以下记录保留当日提取与验收状态：代码进入 OpenStyle 本地工作区，GeoStyle 改为消费共享实现，当时尚未提交、发布 npm 或部署线上。
+
+发布跟进（2026-09-09）：共享能力已整理并提交到 `codex/release-0.7.0` 发布分支。0.7.0 采用 GitHub 预发布 ZIP 和八个 tarball 分发，npm 发布尚未完成；安装方式和发布验收见 [0.7.0 发布说明](./releases/v0.7.0.md)。下文的测试数量与浏览器记录属于 9 月 8 日的提取验收，不代表最终发布套件数量。
 
 ## 本轮成果
 
@@ -17,7 +19,7 @@
 | 模型覆盖、输出上限与 thinking 参数策略 | `@openstyle/ai`: `rewriteChatRequestBody`, `readPositiveInteger`, `readThinkingMode` | `lib/server/llm-proxy-policy.ts` |
 | 不保留模型文本的执行摘要与连续输出耗尽判断 | `summarizeModelStep`, `nextOutputBudgetState` | `lib/background/server-agent-runner.ts` |
 
-公共 API 从包根导出，构建提供 ESM、CJS 和类型声明。原有 cartography 契约、AI 提示词与验证接口保留。新增行为分别记录在 changeset，发布版本另行处理。
+公共 API 从包根导出，构建提供 ESM、CJS 和类型声明。原有 cartography 契约、AI 提示词与验证接口保留。新增行为当时分别记录在 changeset，现已纳入 0.7.0 包版本与 changelog。
 
 ## 修改与复核边界
 
@@ -76,4 +78,4 @@ node examples/cartography-workflow/run.mjs --write
 
 浏览器检查只恢复已有地图，没有重新调用模型，也没有重做整套账号或发布验收。已有会话的历史超时和待检查状态保留。本轮未修改线上配置或公开站点。
 
-两个仓库开始时都已有未提交功能和并行 GeoD 改动，本轮保留这些内容，没有整体重置或混合提交。后续发布应先整理各自变更范围，再走版本和部署流程。
+两个仓库开始时都已有未提交功能和并行 GeoD 改动，本轮保留这些内容，没有整体重置或混合提交。后续在独立发布工作树整理版本和提交，原工作树保留；OpenStyle 包分发与 GeoStyle 网站部署仍是不同流程。

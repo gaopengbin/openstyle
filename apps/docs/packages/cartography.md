@@ -30,4 +30,4 @@ The package also exports Zod schemas and TypeScript types for `LayerProfile`, `C
 
 `RenderQualityReport` describes runtime review state and is not interchangeable with the durable `ReviewReport` contract. In particular, a pending or unreviewed runtime result must not be converted to a passed review.
 
-See the [package README](https://github.com/gaopengbin/openstyle/tree/main/packages/cartography) for code examples and exact contracts, and the [offline workflow example](https://github.com/gaopengbin/openstyle/tree/main/examples/cartography-workflow) for a model-free verification run. These new helpers are present in the local source; a package release is a separate step.
+See the [0.7.0 package README](https://github.com/gaopengbin/openstyle/tree/v0.7.0/packages/cartography) for code examples and exact contracts, and the [offline workflow example](https://github.com/gaopengbin/openstyle/tree/v0.7.0/examples/cartography-workflow) for a model-free verification run. The helpers are included in the GitHub prerelease bundle; follow the [bundle installation guide](../guide/getting-started), since npm publication is not complete.
